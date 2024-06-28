@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c95dad3de057c6740a41320f2a42448b, type: 3}
+  m_Name: Theme_Dark
+  m_EditorClassIdentifier: 
+  TextColor: {r: 1, g: 1, b: 1, a: 0}
+  BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
+  ButtonBackground: {fileID: 21300000, guid: f48b1658133b6b040821023d9266bc62, type: 3}
+  GitHubIcon: {fileID: 21300000, guid: c54a47fce335ab346bd90769c4c3c34b, type: 3}
+  LinkedInIcon: {fileID: 21300000, guid: c3552b3a1c0905b4fbbac34f2a3e8b2f, type: 3}
+  TelegramIcon: {fileID: 21300000, guid: 22b49316668d1ae4b9d2316069bf51eb, type: 3}

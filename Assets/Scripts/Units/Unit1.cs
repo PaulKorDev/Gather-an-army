@@ -1,11 +1,18 @@
-﻿namespace Units
+﻿using System;
+using UnityEngine;
+
+namespace Units
 {
     public class Unit1 : Unit
     {
-        public Unit1(int power, int specCost, int baseCost) : base(power, specCost, baseCost)
+        public void Init(int power, int specCost, int baseCost)
         {
+            InitBase(power, specCost, baseCost);
+            DoSomethingUnically();
         }
-    
-
+        public void DoSomethingUnically()
+        {
+            Debug.Log(String.Concat("I am ", ToString()));
+        }
     }
 }

@@ -1,31 +1,40 @@
 ﻿using System.Collections.Generic;
 using Units;
+using UnityEngine;
 public class UnitsFactory
 {
     private List<Unit> _activeUnits;
-    public UnitsFactory(List<Unit> units)
+    private Transform _container;
+    private UnitPrefabsConfig _unitPrefabsConfig = new UnitPrefabsConfig();
+
+    public UnitsFactory(List<Unit> units, Transform container)
     {
         _activeUnits = units;
+        _container = container;
+        _unitPrefabsConfig.InitUnitPrefabs();
     }
     public Unit CreateUnit1()
     {
-        Unit unit = new Unit1(10,11,12); //TODO: Init from IUnitStates
+        Unit unit = _unitPrefabsConfig.PrefabUnit1.GetComponent<Unit1>();
         SetCost(unit);
+        GameObject.Instantiate(unit, _container);
         _activeUnits.Add(unit);
         return unit;
     }
     public Unit CreateUnit2()
     {
-        Unit unit = new Unit2(21,22,23); //TODO: Init from IUnitStates
+        Unit unit = _unitPrefabsConfig.PrefabUnit2.GetComponent<Unit2>();
         SetCost(unit);
+        GameObject.Instantiate(unit, _container);
         _activeUnits.Add(unit);
         return unit;
 
     }
     public Unit CreateUnit3()
     {
-        Unit unit = new Unit3(31,32,33); //TODO: Init from IUnitStates
+        Unit unit = _unitPrefabsConfig.PrefabUnit3.GetComponent<Unit3>();
         SetCost(unit);
+        GameObject.Instantiate(unit, _container);
         _activeUnits.Add(unit);
         return unit;
 

@@ -27,5 +27,8 @@
         {
             _cost = _specialCost;
         }
+        public string TestSayMyCost() {
+            return string.Concat("My cost is ", _cost);
+        }
     }
 }

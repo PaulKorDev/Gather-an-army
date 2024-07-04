@@ -344,7 +344,7 @@ GameObject:
   - component: {fileID: 327430277}
   - component: {fileID: 327430276}
   m_Layer: 5
-  m_Name: Button_CreateMage
+  m_Name: Button_CreateUnit2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -563,7 +563,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -13.8}
+  m_AnchoredPosition: {x: 0, y: -13.799999}
   m_SizeDelta: {x: 60, y: 60}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &395558885
@@ -970,7 +970,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -13.8}
+  m_AnchoredPosition: {x: 0, y: -13.799999}
   m_SizeDelta: {x: 60, y: 60}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &614153170
@@ -2333,7 +2333,7 @@ GameObject:
   - component: {fileID: 1524065053}
   - component: {fileID: 1524065052}
   m_Layer: 5
-  m_Name: Button_CreateKnight
+  m_Name: Button_CreateUnit1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2441,6 +2441,54 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1524065050}
   m_CullTransparentMesh: 1
+--- !u!1 &1529769962
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1529769964}
+  - component: {fileID: 1529769963}
+  m_Layer: 0
+  m_Name: Test
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1529769963
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1529769962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aaf0782fa782da94397b4309a2c1403a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _buttClearUnitsField: {fileID: 1283205943}
+  _buttSpawnUnit1: {fileID: 1524065052}
+  _buttSpawnUnit2: {fileID: 327430276}
+  _buttSpawnUnit3: {fileID: 2033707941}
+--- !u!4 &1529769964
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1529769962}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1536241491
 GameObject:
   m_ObjectHideFlags: 0
@@ -3474,7 +3522,7 @@ GameObject:
   - component: {fileID: 2033707942}
   - component: {fileID: 2033707941}
   m_Layer: 5
-  m_Name: Button_CreateArcher
+  m_Name: Button_CreateUnit3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4192,3 +4240,4 @@ SceneRoots:
   - {fileID: 519420032}
   - {fileID: 1696862112}
   - {fileID: 1194006206}
+  - {fileID: 1529769964}

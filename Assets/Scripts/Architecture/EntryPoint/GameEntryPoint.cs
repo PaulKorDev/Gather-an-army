@@ -13,15 +13,20 @@ namespace Assets.Scripts.Architecture.EntryPoint
         public static void AutoStart()
         {
             Application.targetFrameRate = 60;
-            //For mobile game
-            //Screen.sleepTimeout = SleepTimeout.NeverSleep;
 
+#if UNITY_IOS || UNITY_ANDROID || UNITY_WP_8_1
+            //For mobile game
+            Screen.sleepTimeout = SleepTimeout.NeverSleep;
+#endif
             _instance = new GameEntryPoint();
-            _instance.RunGame();
+            //Uncomment when all scenes be created
+            //_instance.RunGame();
         }
 
-        private GameEntryPoint() {
-            CreateLoadingScreen();
+        private GameEntryPoint()
+        {
+            //Uncomment when all scenes be created
+            //CreateLoadingScreen();
         }
 
         //Chek current scene and load first
@@ -30,7 +35,8 @@ namespace Assets.Scripts.Architecture.EntryPoint
 #if UNITY_EDITOR
             string currentSceneName = SceneManager.GetActiveScene().name;
 
-            if (false) { //Replace false to cheking scene name. //currentSceneName == Scenes.GAMEPLAY || currentSceneName == Scenes.MENU || currentSceneName == Scenes.BOOTSTRAP) {
+            if (false)
+            { //Replace false to cheking scene name. //currentSceneName == Scenes.GAMEPLAY || currentSceneName == Scenes.MENU || currentSceneName == Scenes.BOOTSTRAP) {
                 _uiLoadingScreen.StartCoroutine(LoadAndStartFirstScreen());
                 return;
             }
@@ -59,8 +65,8 @@ namespace Assets.Scripts.Architecture.EntryPoint
         //Loading screen it's pre-first screen, usualy with logo or loading progress bar
         private void CreateLoadingScreen()
         {
-            var prefabUIRoot = Resources.Load<UILoadingScreenView>("UILoadingScreen.prefab");
-            _uiLoadingScreen = GameObject.Instantiate(prefabUIRoot);
+            var prefabUIRoot = Resources.Load<GameObject>("UILoadingScreen");
+            _uiLoadingScreen = GameObject.Instantiate(prefabUIRoot).GetComponent<UILoadingScreenView>();
             GameObject.DontDestroyOnLoad(_uiLoadingScreen.gameObject);
         }
 

@@ -16,36 +16,7 @@ public class UnitPrefabsConfig
 
     private UnitSpritesSetter _unitSpritesSetter;
     private UnitsTypes _currentType = 0; //Get from save settings
-
-    public void InitUnitPrefabs()
-    {
-        _unitSpritesSetter = new UnitSpritesSetter();
-
-        UpdateUnitSprites(_currentType);
-
-        InitUnit1Pref();
-        InitUnit2Pref();
-        InitUnit3Pref();
-    }
     
-    private void InitUnit1Pref() => InitUnitPref(ref _prefabUnit1, PrefabPaths.UNIT_1, _spriteUnit1);
-    private void InitUnit2Pref() => InitUnitPref(ref _prefabUnit2, PrefabPaths.UNIT_2, _spriteUnit2);
-    private void InitUnit3Pref() => InitUnitPref(ref _prefabUnit3, PrefabPaths.UNIT_3, _spriteUnit3);
-
-    private void InitUnitPref(ref GameObject unitPrefab, string prefabPath, Sprite unitSprite)
-    {
-        unitPrefab = Resources.Load<GameObject>(prefabPath);
-
-        if (unitPrefab != null)
-        {
-            Image unitImageComponent = unitPrefab.GetComponentInChildren<Image>();
-            if (unitImageComponent != null)
-            {
-                unitImageComponent.sprite = unitSprite;
-
-            }
-        }
-    }
     public void UpdateUnitSprites(UnitsTypes type)
     {
         if (((_spriteUnit1 != null) && (_spriteUnit2 != null) && (_spriteUnit3 != null)) && (type == _currentType))
@@ -59,4 +30,52 @@ public class UnitPrefabsConfig
         _spriteUnit2 = _unitSpritesSetter.SpriteUnit2;
         _spriteUnit3 = _unitSpritesSetter.SpriteUnit3;
     }
+
+    public void InitUnitPrefabs()
+    {
+        _unitSpritesSetter = new UnitSpritesSetter();
+
+        UpdateUnitSprites(_currentType);
+
+        InitUnit1Pref();
+        InitUnit2Pref();
+        InitUnit3Pref();
+    }
+    
+    private void InitUnit1Pref() => InitUnitPref(out _prefabUnit1, PrefabPaths.UNIT_1, _spriteUnit1);
+    private void InitUnit2Pref() => InitUnitPref(out _prefabUnit2, PrefabPaths.UNIT_2, _spriteUnit2);
+    private void InitUnit3Pref() => InitUnitPref(out _prefabUnit3, PrefabPaths.UNIT_3, _spriteUnit3);
+
+    private void InitUnitPref(out GameObject unitPrefab, string prefabPath, Sprite unitSprite)
+    {
+        LoadPrefab(out unitPrefab, prefabPath);
+
+        SetImageToPrefab(out Image unitImageComponent, unitPrefab, unitSprite);
+
+        SetTextToPrefab(out Text textPower, out Text textCost, unitImageComponent);
+    }
+
+    private void LoadPrefab(out GameObject prefab, string prefabPath)
+    {
+        prefab = Resources.Load<GameObject>(prefabPath);
+        if (prefab == null) throw new System.Exception("UnitPrefab is null. Check path in Resurces.Load or prefab in folder");
+    }
+
+    private void SetImageToPrefab(out Image imageComponent, GameObject prefab, Sprite sprite)
+    {
+        imageComponent = prefab.GetComponentInChildren<Image>();
+        if (imageComponent == null) throw new System.Exception("unitImageComponent is null. Check exist component on Prefab");
+        imageComponent.sprite = sprite;      
+    }
+
+    private void SetTextToPrefab(out Text textPower, out Text textCost, Image parentObject)
+    {
+        Text[] textsOnPrefab = parentObject.GetComponentsInChildren<Text>();
+        textPower = textsOnPrefab[0];
+        textCost = textsOnPrefab[1];
+
+        textPower.text = "1";
+        textCost.text = "0";
+    }
+
 }

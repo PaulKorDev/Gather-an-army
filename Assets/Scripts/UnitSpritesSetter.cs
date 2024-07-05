@@ -38,8 +38,8 @@ public class UnitSpritesSetter
         SelectTypeOfUnits(type);
 
         SpriteUnit1 = _unitSprites.SpriteUnit1;
-        SpriteUnit2 = _unitSprites.SpriteUnit1;
-        SpriteUnit3 = _unitSprites.SpriteUnit1;
+        SpriteUnit2 = _unitSprites.SpriteUnit2;
+        SpriteUnit3 = _unitSprites.SpriteUnit3;
     }
     private void SelectTypeOfUnits(UnitsTypes type) {
 

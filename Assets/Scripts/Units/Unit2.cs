@@ -8,9 +8,9 @@ namespace Units
         public void Init(int power, int specCost, int baseCost)
         {
             InitBase(power, specCost, baseCost);
-            DoSomethingUnically();
+            DoSomethingUnusual();
         }
-        public void DoSomethingUnically()
+        public void DoSomethingUnusual()
         {
             Debug.Log(String.Concat("I am super ", ToString()));
         }

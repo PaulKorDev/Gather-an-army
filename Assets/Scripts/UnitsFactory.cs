@@ -6,12 +6,13 @@ public class UnitsFactory
     private List<Unit> _activeUnits;
     private Transform _container;
     private UnitPrefabsConfig _unitPrefabsConfig = new UnitPrefabsConfig();
+    private IUnitStats _unitStats = new UnitStatsHardCode();
 
     public UnitsFactory(List<Unit> units, Transform container)
     {
         _activeUnits = units;
         _container = container;
-        _unitPrefabsConfig.InitUnitPrefabs();
+        _unitPrefabsConfig.InitUnitPrefabs(_unitStats);
     }
     public Unit CreateUnit1()
     {

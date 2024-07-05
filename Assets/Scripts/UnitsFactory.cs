@@ -63,7 +63,7 @@ public class UnitsFactory
         if (IsThird())
         {
             unit.SetSpecialCost();
-            costText.color = new Color(141, 131, 255, 1);//new Color(141,131,255); //Get color from Scriptable
+            costText.color = new Color(141f/255f, 131f/255f, 1);//new Color(141,131,255); //Get color from Scriptable
         }
         else
         {

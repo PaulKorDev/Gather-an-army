@@ -3,55 +3,60 @@ using UnityEngine.UI;
 
 public class UnitPrefabsConfig 
 {
-    public GameObject PrefabUnit1 { get; private set; }
-    public GameObject PrefabUnit2 { get; private set; }
-    public GameObject PrefabUnit3 { get; private set; }
+    private GameObject _prefabUnit1;
+    private GameObject _prefabUnit2;
+    private GameObject _prefabUnit3;
+    public GameObject PrefabUnit1 => _prefabUnit1;
+    public GameObject PrefabUnit2 => _prefabUnit2;
+    public GameObject PrefabUnit3 => _prefabUnit3;
+
+    private Sprite _spriteUnit1;
+    private Sprite _spriteUnit2;
+    private Sprite _spriteUnit3;
+
+    private UnitSpritesSetter _unitSpritesSetter;
+    private UnitsTypes _currentType = 0; //Get from save settings
+
     public void InitUnitPrefabs()
     {
+        _unitSpritesSetter = new UnitSpritesSetter();
+
+        UpdateUnitSprites(_currentType);
+
         InitUnit1Pref();
         InitUnit2Pref();
         InitUnit3Pref();
     }
-    private void InitUnit1Pref()
+    
+    private void InitUnit1Pref() => InitUnitPref(ref _prefabUnit1, PrefabPaths.UNIT_1, _spriteUnit1);
+    private void InitUnit2Pref() => InitUnitPref(ref _prefabUnit2, PrefabPaths.UNIT_2, _spriteUnit2);
+    private void InitUnit3Pref() => InitUnitPref(ref _prefabUnit3, PrefabPaths.UNIT_3, _spriteUnit3);
+
+    private void InitUnitPref(ref GameObject unitPrefab, string prefabPath, Sprite unitSprite)
     {
-        PrefabUnit1 = Resources.Load<GameObject>(PrefabPaths.UNIT_1);
-        Sprite spriteUnit1 = Resources.Load<Sprite>("Units/Sprites/Fantasy/knight_128x128");
-        if (PrefabUnit1 != null && spriteUnit1 != null)
+        unitPrefab = Resources.Load<GameObject>(prefabPath);
+
+        if (unitPrefab != null)
         {
-            Image unit1ImageComponent = PrefabUnit1.GetComponentInChildren<Image>();
-            if (unit1ImageComponent != null)
+            Image unitImageComponent = unitPrefab.GetComponentInChildren<Image>();
+            if (unitImageComponent != null)
             {
-                unit1ImageComponent.sprite = spriteUnit1;
+                unitImageComponent.sprite = unitSprite;
+
             }
-            
         }
     }
-    private void InitUnit2Pref()
+    public void UpdateUnitSprites(UnitsTypes type)
     {
-        PrefabUnit2 = Resources.Load<GameObject>(PrefabPaths.UNIT_2);
-        Sprite spriteUnit2 = Resources.Load<Sprite>("Units/Sprites/Fantasy/mage_128x128");
-        if (PrefabUnit2 != null && spriteUnit2 != null)
-        {
-            Image unit2ImageComponent = PrefabUnit2.GetComponentInChildren<Image>();
-            if (unit2ImageComponent != null)
-            {
-                unit2ImageComponent.sprite = spriteUnit2;
-            }
+        if (((_spriteUnit1 != null) && (_spriteUnit2 != null) && (_spriteUnit3 != null)) && (type == _currentType))
+            return;
 
-        }
-    }
-    private void InitUnit3Pref()
-    {
-        PrefabUnit3 = Resources.Load<GameObject>(PrefabPaths.UNIT_3);
-        Sprite spriteUnit3 = Resources.Load<Sprite>("Units/Sprites/Fantasy/archer_128x128");
-        if (PrefabUnit3 != null && spriteUnit3 != null)
-        {
-            Image unit3ImageComponent = PrefabUnit3.GetComponentInChildren<Image>();
-            if (unit3ImageComponent != null)
-            {
-                unit3ImageComponent.sprite = spriteUnit3;
-            }
+        _currentType = type;
 
-        }
+        _unitSpritesSetter.SetSprites(_currentType);
+
+        _spriteUnit1 = _unitSpritesSetter.SpriteUnit1;
+        _spriteUnit2 = _unitSpritesSetter.SpriteUnit2;
+        _spriteUnit3 = _unitSpritesSetter.SpriteUnit3;
     }
 }

@@ -6,6 +6,7 @@ public class UnitPrefabsConfig
     private GameObject _prefabUnit1;
     private GameObject _prefabUnit2;
     private GameObject _prefabUnit3;
+
     public GameObject PrefabUnit1 => _prefabUnit1;
     public GameObject PrefabUnit2 => _prefabUnit2;
     public GameObject PrefabUnit3 => _prefabUnit3;
@@ -31,26 +32,25 @@ public class UnitPrefabsConfig
         _spriteUnit3 = _unitSpritesSetter.SpriteUnit3;
     }
 
-    public void InitUnitPrefabs(IUnitStats unitStats)
+    public void InitUnitPrefabs()
     {
         _unitSpritesSetter = new UnitSpritesSetter();
 
         UpdateUnitSprites(_currentType);
 
-        InitUnit1Pref(unitStats.GetPowerOfUnit(1), unitStats.GetBasePowerOfUnit(1));
-        InitUnit2Pref(unitStats.GetPowerOfUnit(2), unitStats.GetBasePowerOfUnit(2));
-        InitUnit3Pref(unitStats.GetPowerOfUnit(3), unitStats.GetBasePowerOfUnit(3));
+        InitUnit1Pref();
+        InitUnit2Pref();
+        InitUnit3Pref();
     }
     
-    private void InitUnit1Pref(int powerStat, int baseCostStat) => InitUnitPref(out _prefabUnit1, PrefabPaths.UNIT_1, _spriteUnit1, powerStat, baseCostStat);
-    private void InitUnit2Pref(int powerStat, int baseCostStat) => InitUnitPref(out _prefabUnit2, PrefabPaths.UNIT_2, _spriteUnit2, powerStat, baseCostStat);
-    private void InitUnit3Pref(int powerStat, int baseCostStat) => InitUnitPref(out _prefabUnit3, PrefabPaths.UNIT_3, _spriteUnit3, powerStat, baseCostStat);
+    private void InitUnit1Pref() => InitUnitPref(out _prefabUnit1, PrefabPaths.UNIT_1, _spriteUnit1);
+    private void InitUnit2Pref() => InitUnitPref(out _prefabUnit2, PrefabPaths.UNIT_2, _spriteUnit2);
+    private void InitUnit3Pref() => InitUnitPref(out _prefabUnit3, PrefabPaths.UNIT_3, _spriteUnit3);
 
-    private void InitUnitPref(out GameObject unitPrefab, string prefabPath, Sprite unitSprite, int powerStat, int baseCostStat)
+    private void InitUnitPref(out GameObject unitPrefab, string prefabPath, Sprite unitSprite)
     {
         LoadPrefab(out unitPrefab, prefabPath);
         SetImageToPrefab(out Image unitImageComponent, unitPrefab, unitSprite);
-        SetTextToPrefab(out Text textPower, out Text textCost, unitImageComponent, powerStat, baseCostStat);
     }
 
     private void LoadPrefab(out GameObject prefab, string prefabPath)
@@ -64,16 +64,6 @@ public class UnitPrefabsConfig
         imageComponent = prefab.GetComponentInChildren<Image>();
         if (imageComponent == null) throw new System.Exception("unitImageComponent is null. Check exist component on Prefab");
         imageComponent.sprite = sprite;      
-    }
-
-    private void SetTextToPrefab(out Text textPower, out Text textCost, Image parentObject, int powerStat, int baseCostStat)
-    {
-        Text[] textsOnPrefab = parentObject.GetComponentsInChildren<Text>();
-        textPower = textsOnPrefab[0];
-        textCost = textsOnPrefab[1];
-
-        textPower.text = powerStat.ToString();
-        textCost.text = baseCostStat.ToString();
     }
 
 }

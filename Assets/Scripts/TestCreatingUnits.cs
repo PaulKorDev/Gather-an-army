@@ -11,13 +11,14 @@ public class TestCreatingUnits : MonoBehaviour
     [SerializeField] private Button _buttSpawnUnit2;
     [SerializeField] private Button _buttSpawnUnit3;
     [SerializeField] private Transform _container;
+    
     private List<Unit> _spawnedUnits = new List<Unit>();
     private UnitsFactory _unitsFactory;
     private int _allUnitsCount;
 
     private void Awake()
     {
-        _unitsFactory = new UnitsFactory(_spawnedUnits, _container);
+        _unitsFactory = new UnitsFactory(_spawnedUnits, _container, new UnitStatsHardCode());
 
         _buttClearUnitsField.onClick.AddListener(ClearUnitsField);
         _buttSpawnUnit1.onClick.AddListener(() => SpawnUnit(1));

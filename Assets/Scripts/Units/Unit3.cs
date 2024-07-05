@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Units
 {
-    public class Unit3 : Unit
+    public class Unit3 : Unit, IConcreteUnit
     {
         public void Init(int power, int specCost, int baseCost)
         {
@@ -12,7 +12,7 @@ namespace Units
         }
         public void DoSomethingSpecific()
         {
-            Debug.Log(String.Concat("I am mega ", ToString()));
+            //Only for example
         }
     }
 }

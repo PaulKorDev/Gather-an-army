@@ -1,11 +1,11 @@
 ﻿public class UnitStatsHardCode : IUnitStats
 {
-    public int GetBasePowerOfUnit(int unitID)
+    public int GetBaseCostOfUnit(int unitID)
     {
         switch (unitID) { 
-            case 1: return 5;
-            case 2: return 6;
-            case 3: return 7;
+            case 1: return 10;
+            case 2: return 20;
+            case 3: return 30;
             default: throw new System.Exception($"Hasn't unit with id: {unitID}");
         }
     }
@@ -14,9 +14,9 @@
     {
         switch (unitID)
         {
-            case 1: return 88;
-            case 2: return 55;
-            case 3: return 34;
+            case 1: return 7;
+            case 2: return 5;
+            case 3: return 3;
             default: throw new System.Exception($"Hasn't unit with id: {unitID}");
         }
     }
@@ -25,9 +25,9 @@
     {
         switch (unitID)
         {
-            case 1: return 9;
-            case 2: return 7;
-            case 3: return 3;
+            case 1: return 15;
+            case 2: return 40;
+            case 3: return 12;
             default: throw new System.Exception($"Hasn't unit with id: {unitID}");
         }
     }

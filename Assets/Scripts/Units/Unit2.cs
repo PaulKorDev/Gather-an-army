@@ -5,9 +5,9 @@ namespace Units
 {
     public class Unit2 : Unit, IConcreteUnit
     {
-        public void Init(int power, int specCost, int baseCost)
+        public void Init(int power, int specCost, int baseCost, int ID)
         {
-            InitBase(power, specCost, baseCost);
+            InitBase(power, specCost, baseCost, ID);
             DoSomethingUnusual();
         }
         public void DoSomethingUnusual()

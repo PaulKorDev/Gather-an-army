@@ -3,11 +3,8 @@
     public static class Scenes
     {
         public const string TRANSIT = "TransitScene";
-
-        // Add names of other scenes here
-        //public const string MENU = "MenuScene";
-        //public const string GAMEPLAY = "GameplayScene"; 
-        //public const string BOOTSTRAP = "BootstrapScene";
-
+        public const string BOOTSTRAP = "BootStrapScene";
+        public const string MENU = "MenuScene";
+        public const string GAMEPLAY = "GameplayScene";
     }
 }

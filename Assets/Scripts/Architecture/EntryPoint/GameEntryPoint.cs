@@ -8,6 +8,7 @@ namespace Assets.Scripts.Architecture.EntryPoint
     {
         private static GameEntryPoint _instance;
         private UILoadingScreenView _uiLoadingScreen;
+        private Coroutine coroutine;
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         public static void AutoStart()
@@ -19,14 +20,13 @@ namespace Assets.Scripts.Architecture.EntryPoint
             Screen.sleepTimeout = SleepTimeout.NeverSleep;
 #endif
             _instance = new GameEntryPoint();
-            //Uncomment when all scenes be created
-            //_instance.RunGame();
+            _instance.RunGame();
         }
 
         private GameEntryPoint()
         {
-            //Uncomment when all scenes be created
-            //CreateLoadingScreen();
+            CreateCoroutineObj();
+            CreateLoadingScreen();
         }
 
         //Chek current scene and load first
@@ -35,9 +35,9 @@ namespace Assets.Scripts.Architecture.EntryPoint
 #if UNITY_EDITOR
             string currentSceneName = SceneManager.GetActiveScene().name;
 
-            if (false)
-            { //Replace false to cheking scene name. //currentSceneName == Scenes.GAMEPLAY || currentSceneName == Scenes.MENU || currentSceneName == Scenes.BOOTSTRAP) {
-                _uiLoadingScreen.StartCoroutine(LoadAndStartFirstScreen());
+            if (currentSceneName == Scenes.GAMEPLAY || currentSceneName == Scenes.MENU || currentSceneName == Scenes.BOOTSTRAP)
+            { 
+                coroutine.StartCoroutine(LoadAndStartFirstScreen());
                 return;
             }
             else if (currentSceneName != Scenes.TRANSIT)
@@ -45,29 +45,35 @@ namespace Assets.Scripts.Architecture.EntryPoint
                 return;
             }
 #endif
-            _uiLoadingScreen.StartCoroutine(LoadAndStartFirstScreen());
+            coroutine.StartCoroutine(LoadAndStartFirstScreen());
         }
 
         private IEnumerator LoadAndStartFirstScreen()
         {
-            _uiLoadingScreen.ShowLoadingScreen();
 
-            // Replace null to loading first scene
-            yield return null;
-            //yield return SceneLoader.LoadBootstrapScene();
+            yield return SceneLoader.LoadScene(Scenes.BOOTSTRAP);
+            GameHandler GameHandler = GameObject.FindObjectOfType<GameHandler>();
+            GameHandler.Init();
             //InitBootstrapScene();
-            //yield return SceneLoader.LoadMenuScene();
-            //InitMenuScene();
+            //_uiLoadingScreen.ShowLoadingScreen();
+            //yield return SceneLoader.LoadScene(Scenes.GAMEPLAY);
+            //InitGameplayScene();
 
-            _uiLoadingScreen.HideLoadingScreen();
         }
 
         //Loading screen it's pre-first screen, usualy with logo or loading progress bar
         private void CreateLoadingScreen()
         {
-            var prefabUIRoot = Resources.Load<GameObject>("UILoadingScreen");
+            var prefabUIRoot = Resources.Load<GameObject>(PrefabPaths.LOADING_SCREEN);
             _uiLoadingScreen = GameObject.Instantiate(prefabUIRoot).GetComponent<UILoadingScreenView>();
             GameObject.DontDestroyOnLoad(_uiLoadingScreen.gameObject);
+            ServiceLocator.ServiceLocator.Register(_uiLoadingScreen);
+        }
+        private void CreateCoroutineObj()
+        {
+            coroutine = new GameObject("[COROUTINE]").AddComponent<Coroutine>();
+            GameObject.DontDestroyOnLoad(coroutine);
+            ServiceLocator.ServiceLocator.Register(coroutine);
         }
 
     }

@@ -4,9 +4,9 @@ using System.Collections;
 
 namespace Assets.Scripts.Architecture.EntryPoint
 {
-    public class SceneLoader
+    public static class SceneLoader
     {
-        private static IEnumerator LoadScene(string sceneName)
+        public static IEnumerator LoadScene(string sceneName)
         {
             yield return SceneManager.LoadSceneAsync(Scenes.TRANSIT);
             yield return SceneManager.LoadSceneAsync(sceneName);

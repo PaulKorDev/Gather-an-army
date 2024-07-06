@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using Assets.Scripts.Architecture.ServiceLocator;
+using System.Collections.Generic;
 using Units;
 using UnityEngine;
 using UnityEngine.UI;
-public class UnitsFactory
+public class UnitsFactory : IService
 {
     private List<Unit> _activeUnits;
     private Transform _container;

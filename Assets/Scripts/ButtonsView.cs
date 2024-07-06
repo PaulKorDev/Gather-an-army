@@ -1,23 +1,19 @@
-using System;
-using System.Collections.Generic;
-using Units;
+using Assets.Scripts.Architecture.ServiceLocator;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TestCreatingUnits : MonoBehaviour
+public class ButtonsView : MonoBehaviour, IService
 {
     [SerializeField] private Button _buttClearUnitsField;
     [SerializeField] private Button _buttSpawnUnit1;
     [SerializeField] private Button _buttSpawnUnit2;
     [SerializeField] private Button _buttSpawnUnit3;
-    [SerializeField] private Transform _container;
-    
-    private List<Unit> _spawnedUnits = new List<Unit>();
+
     private UnitsFactory _unitsFactory;
 
-    private void Awake()
+    public void Init(UnitsFactory unitsFactory)
     {
-        _unitsFactory = new UnitsFactory(_spawnedUnits, _container, new UnitStatsHardCode());
+        _unitsFactory = unitsFactory;
 
         _buttClearUnitsField.onClick.AddListener(ClearUnitsField);
         _buttSpawnUnit1.onClick.AddListener(() => SpawnUnit(1));
@@ -36,7 +32,7 @@ public class TestCreatingUnits : MonoBehaviour
     }
     private void ClearUnitsField()
     {
-        _spawnedUnits.Clear();
+        
     }
 
 

@@ -7,5 +7,8 @@
 
     //UI
     public const string LOADING_SCREEN = "ServiceObjects/Prefabs/UILoadingScreen";
+
+    //ServiceLocators
+    public const string GAMEPLAY_SERVICELOCATOR = "ServiceObjects/Prefabs/ServiceLocatorsPrefabs/GameplayServiceLocator";
 }
 

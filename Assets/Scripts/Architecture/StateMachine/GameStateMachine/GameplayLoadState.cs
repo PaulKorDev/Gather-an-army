@@ -1,6 +1,8 @@
 ﻿using Assets.Scripts.Architecture.EntryPoint;
 using Assets.Scripts.Architecture.ServiceLocator;
 using Assets.Scripts.Architecture.StateMachine;
+using System.Collections;
+using UnityEngine;
 
 public class GameplayLoadState : BaseGameState
 {
@@ -12,13 +14,23 @@ public class GameplayLoadState : BaseGameState
     {
         ServiceLocator.Get<UILoadingScreenView>().ShowLoadingScreen();
 
-        ServiceLocator.Get<Coroutine>().StartCoroutine(SceneLoader.LoadScene(Scenes.GAMEPLAY));
+        ServiceLocator.Get<Coroutine>().StartCoroutine(LoadGamplay());
+
         _stateMachine.EnterToState<GameplayState>();
 
-        ServiceLocator.Get<UILoadingScreenView>().HideLoadingScreen(); 
 
     }
     public override void UpdateLogic()
     {
     }
+
+    private IEnumerator LoadGamplay(){
+        yield return SceneLoader.LoadScene(Scenes.GAMEPLAY);
+
+        GameplayServiceLocator gamplayServiceLocator = GameObject.FindAnyObjectByType<GameplayServiceLocator>();
+        gamplayServiceLocator.Init();
+
+        ServiceLocator.Get<UILoadingScreenView>().HideLoadingScreen();
+    }
+
 }

@@ -14,12 +14,12 @@ namespace Assets.Scripts.Architecture.ObjectPool
 
         private readonly Func<T> _factory;
         private readonly Action<T> _returnEffect;
-        private readonly Action<T> _getEffect;
+        private readonly Action<T, int> _getEffect;
 
         private Queue<T> _pool = new Queue<T>();
         private List<T> _activeObjects = new List<T>();
 
-        public ObjectPool(Func<T> Factory, Action<T> GetEffect, Action<T> ReturnEffect, int precount, bool autoExpand = true, int poolLimit = 0)
+        public ObjectPool(Func<T> Factory, Action<T, int> GetEffect, Action<T> ReturnEffect, int precount, bool autoExpand = true, int poolLimit = 0)
         {
             AutoExpand = autoExpand;
             _factory = Factory;
@@ -36,45 +36,18 @@ namespace Assets.Scripts.Architecture.ObjectPool
             CreatePool(precount);
         }
 
-        private void CheckPoolLimit(int currentPoolLimit)
-        {
-            int ObjectsInPoolCount = CountAllObjects();
-            if (ObjectsInPoolCount < currentPoolLimit)
-                AutoExpand = true;
-            else if (ObjectsInPoolCount >= currentPoolLimit)
-                AutoExpand = false;
-            if (currentPoolLimit <= 0) //0 OR less mean that pool hasn't limit
-                AutoExpand = true;
-        }
 
-        private void CreatePool(int count)
-        {
-            for (int i = 0; i < count; i++)
-            {
-                ReturnObject(CreateObject());
-            }
-        }
-
-        private T CreateObject(bool isActiveByDefault = false)
-        {
-            T createdObject = _factory();
-            _getEffect(createdObject);
-            _activeObjects.Add(createdObject);
-            return createdObject;
-
-        }
-
-        public T GetObject()
+        public T GetObject(int ID)
         {
             if (_pool.Count > 0)
             {
                 T obj = _pool.Dequeue();       
-                _getEffect(obj);
+                _getEffect(obj, ID);
                 _activeObjects.Add(obj);
                 return obj;
             } else if (AutoExpand)
             {
-                T obj = CreateObject(true);
+                T obj = CreateObject(ID, true);
                 //CheckPoolLimit(PoolLimit.Value); //Uncomment if using Assets.Scripts.Architecture.ReactiveProperty
                 CheckPoolLimit(_poolLimit); //Comment if using Assets.Scripts.Architecture.ReactiveProperty
                 return obj;
@@ -118,6 +91,33 @@ namespace Assets.Scripts.Architecture.ObjectPool
         public int CountAllObjects()
         {
             return CountActiveObjects() + CountFreeObjects();
+        }
+        private void CheckPoolLimit(int currentPoolLimit)
+        {
+            int ObjectsInPoolCount = CountAllObjects();
+            if (ObjectsInPoolCount < currentPoolLimit)
+                AutoExpand = true;
+            else if (ObjectsInPoolCount >= currentPoolLimit)
+                AutoExpand = false;
+            if (currentPoolLimit <= 0) //0 OR less mean that pool hasn't limit
+                AutoExpand = true;
+        }
+
+        private void CreatePool(int count)
+        {
+            for (int i = 0; i < count; i++)
+            {
+                ReturnObject(CreateObject()); 
+            }
+        }
+
+        private T CreateObject(int ID = 1, bool isActiveByDefault = false)
+        {
+            T createdObject = _factory();
+            _getEffect(createdObject, ID);
+            _activeObjects.Add(createdObject);
+            return createdObject;
+
         }
     }
 }

@@ -2390,6 +2390,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3216561224651551929, guid: 332533cca36e9b549835c462d8b9087f, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 3825706508223490027, guid: 332533cca36e9b549835c462d8b9087f, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -2620,6 +2624,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6571135329430111850, guid: 7e895a54dee3a8e4e92cb3c43fb662ca, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 9024992351964137171, guid: 7e895a54dee3a8e4e92cb3c43fb662ca, type: 3}
       propertyPath: m_Name
       value: Button_CreateUnit1
@@ -2737,6 +2745,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3296926540811223843, guid: 727e54dbb7a4d0641a35f67118fb095d, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 3332656757524267280, guid: 727e54dbb7a4d0641a35f67118fb095d, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -2813,9 +2825,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _buttClearUnitsField: {fileID: 1283205943}
-  _buttSpawnUnit1: {fileID: 1524065052}
-  _buttSpawnUnit2: {fileID: 327430276}
-  _buttSpawnUnit3: {fileID: 2033707941}
+  _buttsSpawnUnit:
+  - {fileID: 1524065052}
+  - {fileID: 327430276}
+  - {fileID: 2033707941}
 --- !u!4 &8351546015836761363
 Transform:
   m_ObjectHideFlags: 0

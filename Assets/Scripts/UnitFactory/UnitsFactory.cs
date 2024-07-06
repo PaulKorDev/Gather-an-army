@@ -7,12 +7,13 @@ public class UnitsFactory : IService
 {
     private List<Unit> _activeUnits;
     private Transform _container;
-    private UnitPrefabsConfig _unitPrefabsConfig = new UnitPrefabsConfig();
+    private UnitPrefabsConfig _unitPrefabsConfig;
     private IUnitStats _unitStats;
 
 
     public UnitsFactory(List<Unit> units, Transform container, IUnitStats unitStats)
     {
+        _unitPrefabsConfig = ServiceLocator.Get<UnitPrefabsConfig>();
         _unitStats = unitStats;
         _activeUnits = units;
         _container = container;
@@ -68,7 +69,7 @@ public class UnitsFactory : IService
         unitTextPower = unitTexts[0];
         unitTextCost = unitTexts[1];
     }
-    private void InitUnit(IConcreteUnit concreteUnit, int idUnit) => concreteUnit.Init(_unitStats.GetPowerOfUnit(idUnit), _unitStats.GetSpecialCostOfUnit(idUnit), _unitStats.GetBaseCostOfUnit(idUnit));
+    private void InitUnit(IConcreteUnit concreteUnit, int idUnit) => concreteUnit.Init(_unitStats.GetPowerOfUnit(idUnit), _unitStats.GetSpecialCostOfUnit(idUnit), _unitStats.GetBaseCostOfUnit(idUnit), idUnit);
     private bool IsThird()
     {
         return (_activeUnits.Count + 1) % 3 == 0;

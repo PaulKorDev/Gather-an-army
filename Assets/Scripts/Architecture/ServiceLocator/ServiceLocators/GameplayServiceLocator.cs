@@ -10,22 +10,19 @@ public class GameplayServiceLocator : MonoBehaviour
 
     private IUnitStats _unitStats;
     private UnitsFactory _unitsFactory;
+    private UnitPrefabsConfig _unitsPrefabConfig;
+    private UnitSpritesSetter _unitSpritesSetter;
     private GameplayPresenter _gameplayPresenter;
     private List<Unit> _spawnedUnits = new List<Unit>();
 
     public void Init()
     {
-        ServiceLocator.Register(_buttonView);
-
-        _unitStats = new UnitStatsHardCode();
-        ServiceLocator.Register(_unitStats);
-
-        _unitsFactory = new UnitsFactory(_spawnedUnits, _containerForUnits, _unitStats);
-        ServiceLocator.Register(_unitsFactory);
-
-        _gameplayPresenter = new GameplayPresenter();
-        ServiceLocator.Register(_gameplayPresenter);
-
+        RegisterGameplayPresenter();
+        RegisterUnitStats();
+        RegisterUnitSpritesSetter();
+        RegisterUnitPrefabsConfig();
+        RegisterUnitFactory();
+        RegisterButtonView();
     }
     private void OnDestroy()
     {
@@ -35,10 +32,39 @@ public class GameplayServiceLocator : MonoBehaviour
             ServiceLocator.Unregister(_unitsFactory);
             ServiceLocator.Unregister(_gameplayPresenter);
             ServiceLocator.Unregister(_buttonView);
+            ServiceLocator.Unregister(_unitSpritesSetter);
+            ServiceLocator.Unregister(_unitsPrefabConfig);
 
         } catch
         {
             Debug.Log("Unregister error OnDestroy GameplayServiceLocator");
         }
+    }
+
+    private void RegisterButtonView() => ServiceLocator.Register(_buttonView);
+    private void RegisterUnitStats()
+    {
+        _unitStats = new UnitStatsHardCode();
+        ServiceLocator.Register(_unitStats);
+    }
+    private void RegisterUnitSpritesSetter()
+    {
+        _unitSpritesSetter = new UnitSpritesSetter();
+        ServiceLocator.Register(_unitSpritesSetter);
+    }
+    private void RegisterUnitPrefabsConfig()
+    {
+        _unitsPrefabConfig = new UnitPrefabsConfig();
+        ServiceLocator.Register(_unitsPrefabConfig);
+    }
+    private void RegisterUnitFactory()
+    {
+        _unitsFactory = new UnitsFactory(_spawnedUnits, _containerForUnits, _unitStats);
+        ServiceLocator.Register(_unitsFactory);
+    }
+    private void RegisterGameplayPresenter()
+    {
+        _gameplayPresenter = new GameplayPresenter();
+        ServiceLocator.Register(_gameplayPresenter);
     }
 }

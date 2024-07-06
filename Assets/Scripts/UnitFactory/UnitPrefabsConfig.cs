@@ -1,7 +1,9 @@
+using Assets.Scripts.Architecture.ServiceLocator;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UnitPrefabsConfig 
+//This class manages unit's prefabs: Load from Resources at start, Set image for prefab
+public class UnitPrefabsConfig : IService
 {
     private GameObject _prefabUnit1;
     private GameObject _prefabUnit2;
@@ -16,16 +18,10 @@ public class UnitPrefabsConfig
     private Sprite _spriteUnit3;
 
     private UnitSpritesSetter _unitSpritesSetter;
-    private UnitsTypes _currentType = UnitsTypes.Soliders; //Get from save settings
     
-    public void UpdateUnitSprites(UnitsTypes type)
+    public void UpdateUnitSprites()
     {
-        if (((_spriteUnit1 != null) && (_spriteUnit2 != null) && (_spriteUnit3 != null)) && (type == _currentType))
-            return;
-
-        _currentType = type;
-
-        _unitSpritesSetter.SetSprites(_currentType);
+        _unitSpritesSetter = ServiceLocator.Get<UnitSpritesSetter>();
 
         _spriteUnit1 = _unitSpritesSetter.SpriteUnit1;
         _spriteUnit2 = _unitSpritesSetter.SpriteUnit2;
@@ -34,27 +30,29 @@ public class UnitPrefabsConfig
 
     public void InitUnitPrefabs()
     {
-        _unitSpritesSetter = new UnitSpritesSetter();
+        //Subsribe to reactive property
 
-        UpdateUnitSprites(_currentType);
+        UpdateUnitSprites();
 
         InitUnit1Pref();
         InitUnit2Pref();
         InitUnit3Pref();
     }
     
-    private void InitUnit1Pref() => InitUnitPref(out _prefabUnit1, PrefabPaths.UNIT_1, _spriteUnit1);
-    private void InitUnit2Pref() => InitUnitPref(out _prefabUnit2, PrefabPaths.UNIT_2, _spriteUnit2);
-    private void InitUnit3Pref() => InitUnitPref(out _prefabUnit3, PrefabPaths.UNIT_3, _spriteUnit3);
+    private void InitUnit1Pref() => InitUnitPref(ref _prefabUnit1, PrefabPaths.UNIT_1, _spriteUnit1);
+    private void InitUnit2Pref() => InitUnitPref(ref _prefabUnit2, PrefabPaths.UNIT_2, _spriteUnit2);
+    private void InitUnit3Pref() => InitUnitPref(ref _prefabUnit3, PrefabPaths.UNIT_3, _spriteUnit3);
 
-    private void InitUnitPref(out GameObject unitPrefab, string prefabPath, Sprite unitSprite)
+    private void InitUnitPref(ref GameObject unitPrefab, string prefabPath, Sprite unitSprite)
     {
-        LoadPrefab(out unitPrefab, prefabPath);
+        LoadPrefab(ref unitPrefab, prefabPath);
         SetImageToPrefab(out Image unitImageComponent, unitPrefab, unitSprite);
     }
 
-    private void LoadPrefab(out GameObject prefab, string prefabPath)
+    private void LoadPrefab(ref GameObject prefab, string prefabPath)
     {
+        if (prefab != null)
+            return;
         prefab = Resources.Load<GameObject>(prefabPath);
         if (prefab == null) throw new System.Exception("UnitPrefab is null. Check path in Resurces.Load or prefab in folder");
     }

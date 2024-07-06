@@ -28,6 +28,8 @@ public class GameplayLoadState : BaseGameState
 
         ServiceLocator.Get<ButtonsView>().Init();
 
+        GameObject.Find("UI").AddComponent<SpriteSwitcherTest>();
+
         _stateMachine.EnterToState<GameplayState>();
 
         ServiceLocator.Get<UILoadingScreenView>().HideLoadingScreen();

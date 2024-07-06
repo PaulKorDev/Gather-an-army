@@ -11,7 +11,7 @@ public class SpriteSwitcherTest : MonoBehaviour
     {
         if (_spriteSwither == null)
             _spriteSwither = new SpriteSwither();
-        _spriteSwither.UpdateAllSprites(_unitType);
+        _spriteSwither.UpdateSprites(_unitType);
     }
 
 }

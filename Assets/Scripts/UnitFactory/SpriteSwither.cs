@@ -12,34 +12,26 @@ public class SpriteSwither
         _spritesSetter = ServiceLocator.Get<UnitSpritesSetter>();
     }
 
-    public void UpdateAllSprites(UnitsTypes type)
+    public void UpdateSprites(UnitsTypes type)
     {
+        _spritesSetter.InitSprites(type);
         UpdateUnitPrefab(type);
         UpdateUnitSpawnButton(type);
         UpdateUnitsOnField(type);
     }
 
-    public void UpdateUnitPrefab(UnitsTypes type)
-    {
-        _spritesSetter.InitSprites(type);
-        ServiceLocator.Get<UnitPrefabsConfig>().InitUnitPrefabs();
-    }
-    public void UpdateUnitSpawnButton(UnitsTypes type)
-    {
-        _spritesSetter.InitSprites(type);
-        ServiceLocator.Get<ButtonsView>().UpdateUnitButtonSprites();
+    private void UpdateUnitPrefab(UnitsTypes type) => ServiceLocator.Get<UnitPrefabsConfig>().InitUnitPrefabs();
 
-    }
-    public void UpdateUnitsOnField(UnitsTypes type)
+    private void UpdateUnitSpawnButton(UnitsTypes type) => ServiceLocator.Get<ButtonsView>().UpdateUnitButtonSprites();
+
+
+    private void UpdateUnitsOnField(UnitsTypes type)
     {
-        _spritesSetter.InitSprites(type);
         List<Unit> unitsOnField = ServiceLocator.Get<UnitsFactory>().GetSpawnedUnitList();
         foreach (Unit unit in unitsOnField) { 
             int id = unit.ID;
             unit.GetComponentInChildren<Image>().sprite = _spritesSetter.GetSpriteOfUnit(id);
         }
-        
-
     }
 
 }

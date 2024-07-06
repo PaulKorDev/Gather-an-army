@@ -22,17 +22,36 @@ public class UnitsFactory : IService
 
     public List<Unit> GetSpawnedUnitList() { return _activeUnits; }
 
-    public Unit CreateUnit1()
+    public Unit CreateUnit(int ID = 1)
+    {
+        switch (ID) {
+            case 1: return CreateUnit1();
+            case 2: return CreateUnit2();
+            case 3: return CreateUnit3();
+            default: throw new System.Exception($"UnitFactory: hasn't id {ID}");
+        }
+    }
+
+    public void InitAndSetCostUnit(Unit unit, int unitID)
+    {
+        InitUnit(unit, unitID);
+        GetUnitText(unit, out Text unitTextPower, out Text unitTextCost);
+        SetCost(unit, unitTextCost);
+        SetPowerAndCostText(unit, unitTextPower, unitTextCost);
+        AddUnitToActiveList(unit);
+    }
+
+    private Unit CreateUnit1()
     {
         var prefab = _unitPrefabsConfig.PrefabUnit1;
         return CreateUnit(prefab, 1);
     }
-    public Unit CreateUnit2()
+    private Unit CreateUnit2()
     {
         var prefab = _unitPrefabsConfig.PrefabUnit2;
         return CreateUnit(prefab, 2);
     }
-    public Unit CreateUnit3()
+    private Unit CreateUnit3()
     {
         var prefab = _unitPrefabsConfig.PrefabUnit3;
         return CreateUnit(prefab, 3);
@@ -41,11 +60,7 @@ public class UnitsFactory : IService
     private Unit CreateUnit(GameObject prefab, int unitID)
     {
         InstantiateUnit(prefab, out Unit unit);
-        InitUnit(unit, unitID);
-        GetUnitText(unit, out Text unitTextPower, out Text unitTextCost);
-        SetCost(unit, unitTextCost);
-        SetPowerAndCostText(unit, unitTextPower, unitTextCost);
-        AddUnitToActiveList(unit);
+        InitAndSetCostUnit(unit, unitID);
 
         return unit;
     }
@@ -83,6 +98,7 @@ public class UnitsFactory : IService
         else
         {
             unit.SetBaseCost();
+            costText.color = new Color(1, 1, 1);//Get color from Scriptable
         }
         
     }

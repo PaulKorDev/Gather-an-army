@@ -5,13 +5,8 @@ public class GameplayPresenter : IService
 {
     public void CreateUnit(int ID)
     {
-        UnitsFactory factory = ServiceLocator.Get<UnitsFactory>();
-        switch (ID)
-        {
-            case 1: factory.CreateUnit1(); break;
-            case 2: factory.CreateUnit2(); break;
-            case 3: factory.CreateUnit3(); break;
-        }
+        UnitObjectPool pool = ServiceLocator.Get<UnitObjectPool>();
+        pool.GetObject(ID);
     }
 
     public void ClearUnitField()

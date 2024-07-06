@@ -9,30 +9,25 @@ public class ButtonsView : MonoBehaviour, IService
     [SerializeField] private Button _buttSpawnUnit2;
     [SerializeField] private Button _buttSpawnUnit3;
 
-    private UnitsFactory _unitsFactory;
+    private GameplayPresenter _presenter;
 
-    public void Init(UnitsFactory unitsFactory)
-    {
-        _unitsFactory = unitsFactory;
+    public void Init() { 
 
-        _buttClearUnitsField.onClick.AddListener(ClearUnitsField);
-        _buttSpawnUnit1.onClick.AddListener(() => SpawnUnit(1));
-        _buttSpawnUnit2.onClick.AddListener(() => SpawnUnit(2));
-        _buttSpawnUnit3.onClick.AddListener(() => SpawnUnit(3));
+        _presenter = ServiceLocator.Get<GameplayPresenter>();
+
+        _buttClearUnitsField.onClick.AddListener(OnClearButtonClicked);
+        _buttSpawnUnit1.onClick.AddListener(() => OnSpawnButtonClicked(1));
+        _buttSpawnUnit2.onClick.AddListener(() => OnSpawnButtonClicked(2));
+        _buttSpawnUnit3.onClick.AddListener(() => OnSpawnButtonClicked(3));
     }
 
-    private void SpawnUnit(int id)
+    private void OnSpawnButtonClicked(int id)
     {
-        switch (id)
-        {
-            case 1: _unitsFactory.CreateUnit1(); break;
-            case 2: _unitsFactory.CreateUnit2(); break;
-            case 3: _unitsFactory.CreateUnit3(); break;
-        }
+        _presenter.CreateUnit(id);
     }
-    private void ClearUnitsField()
+    private void OnClearButtonClicked()
     {
-        
+        _presenter.ClearUnitField();
     }
 
 

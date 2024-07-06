@@ -15,10 +15,6 @@ public class GameplayLoadState : BaseGameState
         ServiceLocator.Get<UILoadingScreenView>().ShowLoadingScreen();
 
         ServiceLocator.Get<Coroutine>().StartCoroutine(LoadGamplay());
-
-        _stateMachine.EnterToState<GameplayState>();
-
-
     }
     public override void UpdateLogic()
     {
@@ -29,6 +25,10 @@ public class GameplayLoadState : BaseGameState
 
         GameplayServiceLocator gamplayServiceLocator = GameObject.FindAnyObjectByType<GameplayServiceLocator>();
         gamplayServiceLocator.Init();
+
+        ServiceLocator.Get<ButtonsView>().Init();
+
+        _stateMachine.EnterToState<GameplayState>();
 
         ServiceLocator.Get<UILoadingScreenView>().HideLoadingScreen();
     }

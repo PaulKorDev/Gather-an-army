@@ -18,6 +18,9 @@ public class UnitsFactory : IService
         _container = container;
         _unitPrefabsConfig.InitUnitPrefabs();
     }
+
+    public List<Unit> GetSpawnedUnitList() { return _activeUnits; }
+
     public Unit CreateUnit1()
     {
         var prefab = _unitPrefabsConfig.PrefabUnit1;

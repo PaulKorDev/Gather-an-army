@@ -2799,7 +2799,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _containerForUnits: {fileID: 732132969}
-  _testCreatingUnits: {fileID: 7866338132193238493}
 --- !u!114 &7866338132193238493
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2842,7 +2841,7 @@ GameObject:
   - component: {fileID: 8351546015836761363}
   - component: {fileID: 7866338132193238493}
   m_Layer: 0
-  m_Name: Test
+  m_Name: ButtonsView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -52,6 +52,8 @@ namespace Assets.Scripts.Architecture.EntryPoint
         {
 
             yield return SceneLoader.LoadScene(Scenes.BOOTSTRAP);
+            GameHandler GameHandler = GameObject.FindObjectOfType<GameHandler>();
+            GameHandler.Init();
             //InitBootstrapScene();
             //_uiLoadingScreen.ShowLoadingScreen();
             //yield return SceneLoader.LoadScene(Scenes.GAMEPLAY);

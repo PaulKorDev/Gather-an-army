@@ -25,40 +25,39 @@ public class UnitsFactory : IService
     public Unit CreateUnit1()
     {
         var prefab = _unitPrefabsConfig.PrefabUnit1;
-        var createdUnit = GameObject.Instantiate(prefab, _container);
-
-        Unit1 concreteUnit = createdUnit.GetComponent<Unit1>();
-
-        return CreateUnit(concreteUnit, concreteUnit, 1);
+        return CreateUnit(prefab, 1);
     }
     public Unit CreateUnit2()
     {
         var prefab = _unitPrefabsConfig.PrefabUnit2;
-        var createdUnit = GameObject.Instantiate(prefab, _container);
-
-        Unit2 concreteUnit = createdUnit.GetComponent<Unit2>();
-
-        return CreateUnit(concreteUnit, concreteUnit, 2);
+        return CreateUnit(prefab, 2);
     }
     public Unit CreateUnit3()
     {
         var prefab = _unitPrefabsConfig.PrefabUnit3;
-        var createdUnit = GameObject.Instantiate(prefab, _container);
-
-        Unit3 concreteUnit = createdUnit.GetComponent<Unit3>();
-
-        return CreateUnit(concreteUnit, concreteUnit, 3);
+        return CreateUnit(prefab, 3);
     }
 
-    private Unit CreateUnit(Unit unit, IConcreteUnit concreteUnit, int unitID)
+    private Unit CreateUnit(GameObject prefab, int unitID)
     {
-        InitUnit(concreteUnit, unitID);
+        InstantiateUnit(prefab, out Unit unit);
+        InitUnit(unit, unitID);
         GetUnitText(unit, out Text unitTextPower, out Text unitTextCost);
         SetCost(unit, unitTextCost);
         SetPowerAndCostText(unit, unitTextPower, unitTextCost);
-        _activeUnits.Add(unit);
+        AddUnitToActiveList(unit);
+
         return unit;
     }
+
+    private void AddUnitToActiveList(Unit unit) => _activeUnits.Add(unit);
+
+    private void InstantiateUnit(GameObject prefab, out Unit concreteUnit)
+    {
+        var createdUnit = GameObject.Instantiate(prefab, _container);
+        concreteUnit = createdUnit.GetComponent<Unit>();
+    }
+
     private void SetPowerAndCostText(Unit unit, Text textPower, Text textCost) {
         textCost.text = unit.GetCost().ToString();
         textPower.text = unit.GetPower().ToString();
@@ -69,7 +68,7 @@ public class UnitsFactory : IService
         unitTextPower = unitTexts[0];
         unitTextCost = unitTexts[1];
     }
-    private void InitUnit(IConcreteUnit concreteUnit, int idUnit) => concreteUnit.Init(_unitStats.GetPowerOfUnit(idUnit), _unitStats.GetSpecialCostOfUnit(idUnit), _unitStats.GetBaseCostOfUnit(idUnit), idUnit);
+    private void InitUnit(Unit concreteUnit, int idUnit) => concreteUnit.Init(_unitStats.GetPowerOfUnit(idUnit), _unitStats.GetSpecialCostOfUnit(idUnit), _unitStats.GetBaseCostOfUnit(idUnit), idUnit);
     private bool IsThird()
     {
         return (_activeUnits.Count + 1) % 3 == 0;

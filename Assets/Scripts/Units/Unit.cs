@@ -2,7 +2,7 @@
 
 namespace Units
 {
-    public abstract class Unit : MonoBehaviour
+    public class Unit : MonoBehaviour
     {
         private int _power;
         private int _cost;
@@ -11,7 +11,7 @@ namespace Units
 
         public int ID { get; private set; }
 
-        protected void InitBase (int power, int specialCost, int baseCost, int ID)
+        public void Init (int power, int specialCost, int baseCost, int ID)
         {
             _power = power;
             _specialCost = specialCost;

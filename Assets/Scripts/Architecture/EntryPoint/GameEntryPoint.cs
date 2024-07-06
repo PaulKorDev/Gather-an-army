@@ -59,7 +59,6 @@ namespace Assets.Scripts.Architecture.EntryPoint
             //yield return SceneLoader.LoadScene(Scenes.GAMEPLAY);
             //InitGameplayScene();
 
-            _uiLoadingScreen.HideLoadingScreen();
         }
 
         //Loading screen it's pre-first screen, usualy with logo or loading progress bar
@@ -68,11 +67,13 @@ namespace Assets.Scripts.Architecture.EntryPoint
             var prefabUIRoot = Resources.Load<GameObject>(PrefabPaths.LOADING_SCREEN);
             _uiLoadingScreen = GameObject.Instantiate(prefabUIRoot).GetComponent<UILoadingScreenView>();
             GameObject.DontDestroyOnLoad(_uiLoadingScreen.gameObject);
+            ServiceLocator.ServiceLocator.Register(_uiLoadingScreen);
         }
         private void CreateCoroutineObj()
         {
             coroutine = new GameObject("[COROUTINE]").AddComponent<Coroutine>();
             GameObject.DontDestroyOnLoad(coroutine);
+            ServiceLocator.ServiceLocator.Register(coroutine);
         }
 
     }

@@ -1,4 +1,7 @@
-﻿using Assets.Scripts.Architecture.StateMachine;
+﻿using Assets.Scripts.Architecture.EntryPoint;
+using Assets.Scripts.Architecture.ServiceLocator;
+using Assets.Scripts.Architecture.StateMachine;
+using System.Collections;
 using UnityEngine;
 
 public class BootstrapState : BaseGameState
@@ -9,9 +12,10 @@ public class BootstrapState : BaseGameState
 
     public override void Enter()
     {
-        Debug.Log("Entered to BootstrapState");
-    }
+        //Here register all general services
+        _stateMachine.EnterToState<GameplayLoadState>();
 
+    }
     public override void UpdateLogic()
     {
         

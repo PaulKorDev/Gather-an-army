@@ -14,7 +14,6 @@ public class TestCreatingUnits : MonoBehaviour
     
     private List<Unit> _spawnedUnits = new List<Unit>();
     private UnitsFactory _unitsFactory;
-    private int _allUnitsCount;
 
     private void Awake()
     {
@@ -34,14 +33,10 @@ public class TestCreatingUnits : MonoBehaviour
             case 2: _unitsFactory.CreateUnit2(); break;
             case 3: _unitsFactory.CreateUnit3(); break;
         }
-        _allUnitsCount = _spawnedUnits.Count;
-        Debug.Log(String.Concat("Units on field: ", _allUnitsCount));
     }
     private void ClearUnitsField()
     {
         _spawnedUnits.Clear();
-        _allUnitsCount = _spawnedUnits.Count;
-        Debug.Log(String.Concat("Units on field: ", _allUnitsCount));
     }
 
 

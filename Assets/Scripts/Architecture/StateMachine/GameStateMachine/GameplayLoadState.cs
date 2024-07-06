@@ -1,4 +1,6 @@
-﻿using Assets.Scripts.Architecture.StateMachine;
+﻿using Assets.Scripts.Architecture.EntryPoint;
+using Assets.Scripts.Architecture.ServiceLocator;
+using Assets.Scripts.Architecture.StateMachine;
 
 public class GameplayLoadState : BaseGameState
 {
@@ -8,11 +10,15 @@ public class GameplayLoadState : BaseGameState
 
     public override void Enter()
     {
-        throw new System.NotImplementedException();
-    }
+        ServiceLocator.Get<UILoadingScreenView>().ShowLoadingScreen();
 
+        ServiceLocator.Get<Coroutine>().StartCoroutine(SceneLoader.LoadScene(Scenes.GAMEPLAY));
+        _stateMachine.EnterToState<GameplayState>();
+
+        ServiceLocator.Get<UILoadingScreenView>().HideLoadingScreen(); 
+
+    }
     public override void UpdateLogic()
     {
-        throw new System.NotImplementedException();
     }
 }

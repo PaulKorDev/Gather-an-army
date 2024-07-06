@@ -8,11 +8,9 @@ public class GameplayState : BaseGameState
 
     public override void Enter()
     {
-        throw new System.NotImplementedException();
     }
 
     public override void UpdateLogic()
     {
-        throw new System.NotImplementedException();
     }
 }

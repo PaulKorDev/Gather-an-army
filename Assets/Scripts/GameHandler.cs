@@ -12,6 +12,10 @@ public sealed class GameHandler : MonoBehaviour
         AddStates();
         stateMachine.EnterToState<BootstrapState>();
     }
+    private void Update()
+    {
+        stateMachine?.CurrentState.UpdateLogic();
+    }
     private void AddStates()
     {
         stateMachine.AddState(new BootstrapState(stateMachine));
@@ -19,6 +23,5 @@ public sealed class GameHandler : MonoBehaviour
         stateMachine.AddState(new GameplayState(stateMachine));
         //Add menuState
     }
-    //StateMachine
     //GameServiceLocator
 }

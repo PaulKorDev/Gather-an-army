@@ -16,7 +16,7 @@ public class UnitPrefabsConfig
     private Sprite _spriteUnit3;
 
     private UnitSpritesSetter _unitSpritesSetter;
-    private UnitsTypes _currentType = 0; //Get from save settings
+    private UnitsTypes _currentType = UnitsTypes.Soliders; //Get from save settings
     
     public void UpdateUnitSprites(UnitsTypes type)
     {

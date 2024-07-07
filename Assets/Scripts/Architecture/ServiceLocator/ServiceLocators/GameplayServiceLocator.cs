@@ -1,3 +1,4 @@
+using Assets.Scripts.Architecture.ObjectPool;
 using Assets.Scripts.Architecture.ServiceLocator;
 using System.Collections.Generic;
 using Units;
@@ -13,15 +14,19 @@ public class GameplayServiceLocator : MonoBehaviour
     private UnitPrefabsConfig _unitsPrefabConfig;
     private UnitSpritesSetter _unitSpritesSetter;
     private GameplayPresenter _gameplayPresenter;
+    private UnitsUpdater _unitsUpater;
+    private UnitObjectPool _unitObjectPool;
     private List<Unit> _spawnedUnits = new List<Unit>();
 
-    public void Init()
+    public void RegisterAllServices()
     {
-        RegisterGameplayPresenter();
         RegisterUnitStats();
         RegisterUnitSpritesSetter();
         RegisterUnitPrefabsConfig();
+        RegisterUnitsUpdater();
         RegisterUnitFactory();
+        RegisterObjectPool();
+        RegisterGameplayPresenter();
         RegisterButtonView();
     }
     private void OnDestroy()
@@ -29,11 +34,13 @@ public class GameplayServiceLocator : MonoBehaviour
         try
         {
             ServiceLocator.Unregister(_unitStats);
-            ServiceLocator.Unregister(_unitsFactory);
-            ServiceLocator.Unregister(_gameplayPresenter);
-            ServiceLocator.Unregister(_buttonView);
             ServiceLocator.Unregister(_unitSpritesSetter);
             ServiceLocator.Unregister(_unitsPrefabConfig);
+            ServiceLocator.Unregister(_unitsUpater);
+            ServiceLocator.Unregister(_unitsFactory);
+            ServiceLocator.Unregister(_unitObjectPool);
+            ServiceLocator.Unregister(_gameplayPresenter);
+            ServiceLocator.Unregister(_buttonView);
 
         } catch
         {
@@ -41,7 +48,7 @@ public class GameplayServiceLocator : MonoBehaviour
         }
     }
 
-    private void RegisterButtonView() => ServiceLocator.Register(_buttonView);
+    #region Register methods
     private void RegisterUnitStats()
     {
         _unitStats = new UnitStatsHardCode();
@@ -57,14 +64,26 @@ public class GameplayServiceLocator : MonoBehaviour
         _unitsPrefabConfig = new UnitPrefabsConfig();
         ServiceLocator.Register(_unitsPrefabConfig);
     }
+    private void RegisterUnitsUpdater()
+    {
+        _unitsUpater = new UnitsUpdater(_spawnedUnits);
+        ServiceLocator.Register(_unitsUpater);
+    }
     private void RegisterUnitFactory()
     {
-        _unitsFactory = new UnitsFactory(_spawnedUnits, _containerForUnits, _unitStats);
+        _unitsFactory = new UnitsFactory(_containerForUnits, _unitStats);
         ServiceLocator.Register(_unitsFactory);
+    }
+    private void RegisterObjectPool()
+    {
+        _unitObjectPool = new UnitObjectPool(_spawnedUnits);
+        ServiceLocator.Register(_unitObjectPool);
     }
     private void RegisterGameplayPresenter()
     {
         _gameplayPresenter = new GameplayPresenter();
         ServiceLocator.Register(_gameplayPresenter);
     }
+    private void RegisterButtonView() => ServiceLocator.Register(_buttonView);
+    #endregion
 }

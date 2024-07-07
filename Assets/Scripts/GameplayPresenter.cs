@@ -1,26 +1,28 @@
-﻿using Assets.Scripts.Architecture.ServiceLocator;
-using UnityEngine;
+﻿using Assets.Scripts.Architecture.EventBus;
+using Assets.Scripts.Architecture.ServiceLocator;
+using Units;
 
 public class GameplayPresenter : IService
 {
     public void CreateUnit(int ID)
     {
-        UnitsFactory factory = ServiceLocator.Get<UnitsFactory>();
-        switch (ID)
-        {
-            case 1: factory.CreateUnit1(); break;
-            case 2: factory.CreateUnit2(); break;
-            case 3: factory.CreateUnit3(); break;
-        }
+        UnitObjectPool pool = ServiceLocator.Get<UnitObjectPool>();
+        pool.GetObject(ID);
     }
 
     public void ClearUnitField()
     {
-        UnitsFactory factory = ServiceLocator.Get<UnitsFactory>();
-        foreach (var unit in factory.GetSpawnedUnitList())
-        {
-            GameObject.Destroy(unit.gameObject);
-        }
-        factory.GetSpawnedUnitList().Clear();
+        UnitObjectPool pool = ServiceLocator.Get<UnitObjectPool>();
+        pool.ReturnAllActiveObjects();
     }
+
+    public void DeleteUnitFromField(Unit unit)
+    {
+        UnitObjectPool pool = ServiceLocator.Get<UnitObjectPool>();
+        pool.ReturnObject(unit);
+        ServiceLocator.Get<EventBus>().TrigerUnitsOrderChanged();
+    }
+
+    
+
 }

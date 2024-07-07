@@ -16,16 +16,15 @@ public class GameplayLoadState : BaseGameState
 
         ServiceLocator.Get<Coroutine>().StartCoroutine(LoadGamplay());
     }
-    public override void UpdateLogic()
-    {
-    }
+    
 
     private IEnumerator LoadGamplay(){
         yield return SceneLoader.LoadScene(Scenes.GAMEPLAY);
 
         GameplayServiceLocator gamplayServiceLocator = GameObject.FindAnyObjectByType<GameplayServiceLocator>();
-        gamplayServiceLocator.Init();
+        gamplayServiceLocator.RegisterAllServices();
 
+        
         ServiceLocator.Get<ButtonsView>().Init();
 
         GameObject.Find("UI").AddComponent<SpriteSwitcherTest>();

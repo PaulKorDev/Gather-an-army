@@ -1,26 +1,46 @@
 ﻿using Assets.Scripts.Architecture.ServiceLocator;
-using UnityEngine;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Units;
 
 public class GameplayPresenter : IService
 {
     public void CreateUnit(int ID)
     {
-        UnitsFactory factory = ServiceLocator.Get<UnitsFactory>();
-        switch (ID)
-        {
-            case 1: factory.CreateUnit1(); break;
-            case 2: factory.CreateUnit2(); break;
-            case 3: factory.CreateUnit3(); break;
-        }
+        UnitObjectPool pool = ServiceLocator.Get<UnitObjectPool>();
+        pool.GetObject(ID);
     }
 
     public void ClearUnitField()
     {
-        UnitsFactory factory = ServiceLocator.Get<UnitsFactory>();
-        foreach (var unit in factory.GetSpawnedUnitList())
-        {
-            GameObject.Destroy(unit.gameObject);
-        }
-        factory.GetSpawnedUnitList().Clear();
+        UnitObjectPool pool = ServiceLocator.Get<UnitObjectPool>();
+        pool.ReturnAllActiveObjects();
     }
+
+    public async void DeleteUnitFromField(Unit unit)
+    {
+        UnitObjectPool pool = ServiceLocator.Get<UnitObjectPool>();
+        pool.ReturnObject(unit);
+        List<Unit> activePool = pool.GetAllActiveObjects();
+        await SortActiveObjectOnField(activePool);
+        await UpdateCostOfUnitsOnField(activePool);
+        
+    }
+
+    private Task SortActiveObjectOnField(List<Unit> activeUnits)
+    {
+        foreach (Unit unit in activeUnits) { 
+            unit.transform.SetAsLastSibling();
+        }
+        return Task.CompletedTask;
+    }
+    private Task UpdateCostOfUnitsOnField(List<Unit> activeUnits)
+    {
+        for (int i = 0; i < activeUnits.Count; i++)
+        {
+            ServiceLocator.Get<UnitsFactory>().UpdateCostAndSetText(activeUnits[i], i+1);
+        }
+        return Task.CompletedTask;
+    }
+
 }

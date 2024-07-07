@@ -24,7 +24,7 @@ public class GameplayLoadState : BaseGameState
         yield return SceneLoader.LoadScene(Scenes.GAMEPLAY);
 
         GameplayServiceLocator gamplayServiceLocator = GameObject.FindAnyObjectByType<GameplayServiceLocator>();
-        gamplayServiceLocator.Init();
+        gamplayServiceLocator.RegisterAllServices();
 
         ServiceLocator.Get<ButtonsView>().Init();
 

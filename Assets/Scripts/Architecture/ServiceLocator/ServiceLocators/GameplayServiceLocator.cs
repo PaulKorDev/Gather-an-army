@@ -1,3 +1,4 @@
+using Assets.Scripts.Architecture.ObjectPool;
 using Assets.Scripts.Architecture.ServiceLocator;
 using System.Collections.Generic;
 using Units;
@@ -13,9 +14,10 @@ public class GameplayServiceLocator : MonoBehaviour
     private UnitPrefabsConfig _unitsPrefabConfig;
     private UnitSpritesSetter _unitSpritesSetter;
     private GameplayPresenter _gameplayPresenter;
+    private UnitObjectPool _unitObjectPool;
     private List<Unit> _spawnedUnits = new List<Unit>();
 
-    public void Init()
+    public void RegisterAllServices()
     {
         RegisterGameplayPresenter();
         RegisterUnitStats();
@@ -23,6 +25,7 @@ public class GameplayServiceLocator : MonoBehaviour
         RegisterUnitPrefabsConfig();
         RegisterUnitFactory();
         RegisterButtonView();
+        RegisterObjectPool();
     }
     private void OnDestroy()
     {
@@ -61,6 +64,11 @@ public class GameplayServiceLocator : MonoBehaviour
     {
         _unitsFactory = new UnitsFactory(_spawnedUnits, _containerForUnits, _unitStats);
         ServiceLocator.Register(_unitsFactory);
+    }
+    private void RegisterObjectPool()
+    {
+        _unitObjectPool = new UnitObjectPool(_spawnedUnits);
+        ServiceLocator.Register(_unitObjectPool);
     }
     private void RegisterGameplayPresenter()
     {

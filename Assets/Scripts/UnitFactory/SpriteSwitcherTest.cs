@@ -5,13 +5,13 @@ public class SpriteSwitcherTest : MonoBehaviour
 {
     [SerializeField] private UnitsTypes _unitType;
 
-    SpriteSwither _spriteSwither; 
+    SpriteSwitcher _spriteSwitcher; 
 
     private void OnValidate()
     {
-        if (_spriteSwither == null)
-            _spriteSwither = new SpriteSwither();
-        _spriteSwither.UpdateSprites(_unitType);
+        if (_spriteSwitcher == null)
+            _spriteSwitcher = new SpriteSwitcher();
+        _spriteSwitcher.UpdateAllSprites(_unitType);
     }
 
 }

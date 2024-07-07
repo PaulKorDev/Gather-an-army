@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using Units;
 using UnityEngine.UI;
 
-public class SpriteSwither
+public class SpriteSwitcher
 {
     private UnitSpritesSetter _spritesSetter;
 
-    public SpriteSwither()
+    public SpriteSwitcher()
     {
         _spritesSetter = ServiceLocator.Get<UnitSpritesSetter>();
     }

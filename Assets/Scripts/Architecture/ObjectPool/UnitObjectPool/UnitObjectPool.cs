@@ -13,10 +13,9 @@ public class UnitObjectPool : ObjectPool<Unit>, IService
     {
     }
 
-    private static Unit FactoryMethod(int index)
+    private static Unit FactoryMethod()
     {
         var createdUnit = ServiceLocator.Get<UnitsFactory>().CreateUnit();
-        createdUnit.Index = index;
         return createdUnit;
     }
     private static void GetEffect(Unit unit, int id) {
@@ -24,9 +23,8 @@ public class UnitObjectPool : ObjectPool<Unit>, IService
         ServiceLocator.Get<UnitsFactory>().InitAndSetCostUnit(unit, id);
         unit.gameObject.SetActive(true);
     }
-    private static void ReturnEffect(Unit obj, List<Unit> _pool)
+    private static void ReturnEffect(Unit obj)
     {
-        _pool.Insert(obj.Index, obj);
         obj.gameObject.SetActive(false);
     }
 }

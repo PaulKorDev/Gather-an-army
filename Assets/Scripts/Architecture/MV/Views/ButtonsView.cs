@@ -50,8 +50,10 @@ public class ButtonsView : MonoBehaviour, IService
     private void DisplayUnitButtonStats()
     {
         IUnitStats unitStats = ServiceLocator.Get<IUnitStats>();
+
         for (int i = 0; i < _buttsSpawnUnit.Length; i++) {
             Text[] texts = _buttsSpawnUnit[i].GetComponentsInChildren<Text>();
+            //Set stats to text on buttons
             texts[0].text = unitStats.GetPowerOfUnit(i + 1).ToString();
             texts[1].text = unitStats.GetSpecialCostOfUnit(i + 1).ToString();
             texts[2].text = unitStats.GetBaseCostOfUnit(i + 1).ToString();

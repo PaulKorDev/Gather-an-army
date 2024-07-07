@@ -9,10 +9,10 @@ public class UnitStatisctics : MonoBehaviour
     [SerializeField] private Text _allPower;
     [SerializeField] private Text _unitsQuantity;
 
-    private void DisplayPowerAndQuantity(int power, List<Unit> unitsOnField)
+    private void DisplayPowerAndQuantity(int power, int quantity)
     {
         _allPower.text = power.ToString();
-        _unitsQuantity.text = unitsOnField.Count.ToString();
+        _unitsQuantity.text = quantity.ToString();
     }
 
     private void DisplayMoneyLeft(int money)

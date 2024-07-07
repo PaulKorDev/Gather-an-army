@@ -12,9 +12,9 @@ public class UnitsFactory : IService
     private IUnitStats _unitStats;
 
 
-    public UnitsFactory(List<Unit> units, Transform container, IUnitStats unitStats)
+    public UnitsFactory(List<Unit> unitsOnField, Transform container, IUnitStats unitStats)
     {
-        _unitsOnField = units;
+        _unitsOnField = unitsOnField;
         _unitPrefabsConfig = ServiceLocator.Get<UnitPrefabsConfig>();
         _unitStats = unitStats;
         _container = container;
@@ -34,19 +34,27 @@ public class UnitsFactory : IService
     public void InitAndSetCostUnit(Unit unit, int unitID)
     {
         InitUnit(unit, unitID);
+        UpdateCostAndSetText(unit);
+    }
+
+    private void UpdateCostAndSetText(Unit unit)
+    {
         GetUnitText(unit, out Text unitTextPower, out Text unitTextCost);
         SetCost(unit, unitTextCost);
         SetPowerAndCostText(unit, unitTextPower, unitTextCost);
-        AddListenerForButton(unit, unitID);
     }
-
-    
+    public void UpdateCostAndSetText(Unit unit, int oridnalNum)
+    {
+        GetUnitText(unit, out Text unitTextPower, out Text unitTextCost);
+        SetCost(unit, unitTextCost, oridnalNum);
+        SetPowerAndCostText(unit, unitTextPower, unitTextCost);
+    }
 
     private Unit CreateConcreteUnit(int unitID)
     {
         InstantiateUnit(out Unit unit);
         InitAndSetCostUnit(unit, unitID);
-
+        AddListenerForButton(unit);
         return unit;
     }
 
@@ -68,11 +76,15 @@ public class UnitsFactory : IService
         unitTextCost = unitTexts[1];
     }
     private void InitUnit(Unit concreteUnit, int idUnit) => concreteUnit.Init(_unitStats.GetPowerOfUnit(idUnit), _unitStats.GetSpecialCostOfUnit(idUnit), _unitStats.GetBaseCostOfUnit(idUnit), idUnit);
-    private void AddListenerForButton(Unit unit, int unitID) => unit.gameObject.GetComponent<Button>().onClick.AddListener(() => ServiceLocator.Get<GameplayPresenter>().DeleteUnitFromField(unit));
+    private void AddListenerForButton(Unit unit) => unit.gameObject.GetComponent<Button>().onClick.AddListener(() => ServiceLocator.Get<GameplayPresenter>().DeleteUnitFromField(unit));
     
     private bool IsThird()
     {
         return (_unitsOnField.Count + 1) % 3 == 0;
+    }
+    private bool IsThird(int ordinalNum)
+    {
+        return (ordinalNum) % 3 == 0;
     }
     private void SetCost(Unit unit, Text costText)
     {
@@ -88,4 +100,21 @@ public class UnitsFactory : IService
         }
         
     }
+
+    private void SetCost(Unit unit, Text costText, int ordinalNumber)
+    {
+        if (IsThird(ordinalNumber))
+        {
+            unit.SetSpecialCost();
+            costText.color = new Color(141f / 255f, 131f / 255f, 1);//Get color from Scriptable
+        }
+        else
+        {
+            unit.SetBaseCost();
+            costText.color = new Color(1, 1, 1);//Get color from Scriptable
+        }
+
+    }
+
+
 }

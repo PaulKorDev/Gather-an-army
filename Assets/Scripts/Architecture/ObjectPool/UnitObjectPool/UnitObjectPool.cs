@@ -21,6 +21,7 @@ public class UnitObjectPool : ObjectPool<Unit>, IService
     private static void GetEffect(Unit unit, int id) {
         unit.GetComponentInChildren<Image>().sprite = ServiceLocator.Get<UnitSpritesSetter>().GetSpriteOfUnit(id);
         ServiceLocator.Get<UnitsFactory>().InitAndSetCostUnit(unit, id);
+        unit.gameObject.transform.SetAsLastSibling();
         unit.gameObject.SetActive(true);
     }
     private static void ReturnEffect(Unit obj)

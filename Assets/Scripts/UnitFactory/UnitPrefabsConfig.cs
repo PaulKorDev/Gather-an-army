@@ -13,12 +13,7 @@ public class UnitPrefabsConfig : IService
 
     private UnitSpritesSetter _unitSpritesSetter;
     
-    public void UpdateUnitSprites()
-    {
-        _unitSpritesSetter = ServiceLocator.Get<UnitSpritesSetter>();
-
-        _defaultSpriteUnit = _unitSpritesSetter.SpriteUnit1;
-    }
+    
 
     public void InitUnitPrefabs()
     {
@@ -28,7 +23,12 @@ public class UnitPrefabsConfig : IService
 
         InitUnitPref(ref _prefabUnit, PrefabPaths.UNIT, _defaultSpriteUnit);
     }
-    
+    private void UpdateUnitSprites()
+    {
+        _unitSpritesSetter = ServiceLocator.Get<UnitSpritesSetter>();
+
+        _defaultSpriteUnit = _unitSpritesSetter.SpriteUnit1;
+    }
 
     private void InitUnitPref(ref GameObject unitPrefab, string prefabPath, Sprite unitSprite)
     {
@@ -43,12 +43,5 @@ public class UnitPrefabsConfig : IService
         prefab = Resources.Load<GameObject>(prefabPath);
         if (prefab == null) throw new System.Exception("UnitPrefab is null. Check path in Resurces.Load or prefab in folder");
     }
-
-    //private void SetImageToPrefab(out Image imageComponent, GameObject prefab, Sprite sprite)
-    //{
-    //    imageComponent = prefab.GetComponentInChildren<Image>();
-    //    if (imageComponent == null) throw new System.Exception("unitImageComponent is null. Check exist component on Prefab");
-    //    imageComponent.sprite = sprite;      
-    //}
 
 }

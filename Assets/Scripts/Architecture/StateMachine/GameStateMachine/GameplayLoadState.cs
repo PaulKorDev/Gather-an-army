@@ -24,7 +24,7 @@ public class GameplayLoadState : BaseGameState
         GameplayServiceLocator gamplayServiceLocator = GameObject.FindAnyObjectByType<GameplayServiceLocator>();
         gamplayServiceLocator.RegisterAllServices();
 
-        new UnitsUpdater();
+        
         ServiceLocator.Get<ButtonsView>().Init();
 
         GameObject.Find("UI").AddComponent<SpriteSwitcherTest>();

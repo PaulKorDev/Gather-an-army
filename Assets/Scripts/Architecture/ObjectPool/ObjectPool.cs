@@ -38,12 +38,12 @@ namespace Assets.Scripts.Architecture.ObjectPool
             CreatePool(precount);
         }
 
-
+        #region Get and Return methods
         public T GetObject(int ID)
         {
             if (_freeObjects.Count > 0)
             {
-                T obj = RemoveFromPool();   
+                T obj = _freeObjects.Dequeue();
                 _getEffect(obj, ID);
                 _activeObjects.Add(obj);
                 return obj;
@@ -58,28 +58,11 @@ namespace Assets.Scripts.Architecture.ObjectPool
             Debug.LogError($"No free {typeof(T).Name} objects in pool");
             return null;
         }
-
-        public List<T> GetAllObjects()
-        {
-            List<T> allObjects = new List<T>();
-
-            foreach (T obj in _freeObjects)
-                allObjects.Add(obj);
-            foreach (T obj in _activeObjects)
-                allObjects.Add(obj);
-
-            return allObjects;
-        }
-        public List<T> GetAllActiveObjects()
-        {
-            return _activeObjects;
-        }
-
         public void ReturnObject(T obj)
         {
             _returnEffect(obj);
             _activeObjects.Remove(obj);
-            ReturnToPool(obj);
+            _freeObjects.Enqueue(obj);
         }
         public void ReturnAllActiveObjects()
         {
@@ -87,11 +70,17 @@ namespace Assets.Scripts.Architecture.ObjectPool
             {
                 T obj = _activeObjects[i];
                 _returnEffect(obj);
-                ReturnToPool(obj);
+                _freeObjects.Enqueue(obj);
             }
             _activeObjects.Clear();
         }
+        #endregion
+        public List<T> GetAllActiveObjects()
+        {
+            return _activeObjects;
+        }
 
+        #region Count methods
         public int CountFreeObjects()
         {
             return _freeObjects.Count;
@@ -104,6 +93,7 @@ namespace Assets.Scripts.Architecture.ObjectPool
         {
             return CountActiveObjects() + CountFreeObjects();
         }
+        #endregion
         private void CheckPoolLimit(int currentPoolLimit)
         {
             int ObjectsInPoolCount = CountAllObjects();
@@ -114,7 +104,6 @@ namespace Assets.Scripts.Architecture.ObjectPool
             if (currentPoolLimit <= 0) //0 OR less mean that pool hasn't limit
                 AutoExpand = true;
         }
-
         private void CreatePool(int count)
         {
             for (int i = 0; i < count; i++)
@@ -122,7 +111,6 @@ namespace Assets.Scripts.Architecture.ObjectPool
                 ReturnObject(CreateObject()); 
             }
         }
-
         private T CreateObject(int ID = 1, bool isActiveByDefault = false)
         {
             T createdObject = _factory();
@@ -130,16 +118,6 @@ namespace Assets.Scripts.Architecture.ObjectPool
             _activeObjects.Add(createdObject);
             return createdObject;
 
-        }
-
-        private T RemoveFromPool()
-        {
-            T obj = _freeObjects.Dequeue();
-            return obj;
-        }
-        private void ReturnToPool(T obj)
-        {
-            _freeObjects.Enqueue(obj);
         }
 
     }

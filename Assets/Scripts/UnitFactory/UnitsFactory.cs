@@ -1,64 +1,70 @@
 ﻿using Assets.Scripts.Architecture.ServiceLocator;
+using System;
 using System.Collections.Generic;
 using Units;
 using UnityEngine;
 using UnityEngine.UI;
 public class UnitsFactory : IService
 {
-    private List<Unit> _activeUnits;
+    private List<Unit> _unitsOnField;
     private Transform _container;
     private UnitPrefabsConfig _unitPrefabsConfig;
     private IUnitStats _unitStats;
 
 
-    public UnitsFactory(List<Unit> units, Transform container, IUnitStats unitStats)
+    public UnitsFactory(List<Unit> unitsOnField, Transform container, IUnitStats unitStats)
     {
+        _unitsOnField = unitsOnField;
         _unitPrefabsConfig = ServiceLocator.Get<UnitPrefabsConfig>();
         _unitStats = unitStats;
-        _activeUnits = units;
         _container = container;
         _unitPrefabsConfig.InitUnitPrefabs();
     }
 
-    public List<Unit> GetSpawnedUnitList() { return _activeUnits; }
-
-    public Unit CreateUnit1()
+    public Unit CreateUnit(int ID = 1)
     {
-        var prefab = _unitPrefabsConfig.PrefabUnit1;
-        var createdUnit = GameObject.Instantiate(prefab, _container);
-
-        Unit1 concreteUnit = createdUnit.GetComponent<Unit1>();
-
-        return CreateUnit(concreteUnit, concreteUnit, 1);
-    }
-    public Unit CreateUnit2()
-    {
-        var prefab = _unitPrefabsConfig.PrefabUnit2;
-        var createdUnit = GameObject.Instantiate(prefab, _container);
-
-        Unit2 concreteUnit = createdUnit.GetComponent<Unit2>();
-
-        return CreateUnit(concreteUnit, concreteUnit, 2);
-    }
-    public Unit CreateUnit3()
-    {
-        var prefab = _unitPrefabsConfig.PrefabUnit3;
-        var createdUnit = GameObject.Instantiate(prefab, _container);
-
-        Unit3 concreteUnit = createdUnit.GetComponent<Unit3>();
-
-        return CreateUnit(concreteUnit, concreteUnit, 3);
+        switch (ID) {
+            case 1: return CreateConcreteUnit(1);
+            case 2: return CreateConcreteUnit(2);
+            case 3: return CreateConcreteUnit(3);
+            default: throw new System.Exception($"UnitFactory: hasn't id {ID}");
+        }
     }
 
-    private Unit CreateUnit(Unit unit, IConcreteUnit concreteUnit, int unitID)
+    public void InitAndSetCostUnit(Unit unit, int unitID)
     {
-        InitUnit(concreteUnit, unitID);
+        InitUnit(unit, unitID);
+        UpdateCostAndSetText(unit);
+    }
+
+    private void UpdateCostAndSetText(Unit unit)
+    {
         GetUnitText(unit, out Text unitTextPower, out Text unitTextCost);
         SetCost(unit, unitTextCost);
         SetPowerAndCostText(unit, unitTextPower, unitTextCost);
-        _activeUnits.Add(unit);
+    }
+    public void UpdateCostAndSetText(Unit unit, int oridnalNum)
+    {
+        GetUnitText(unit, out Text unitTextPower, out Text unitTextCost);
+        SetCost(unit, unitTextCost, oridnalNum);
+        SetPowerAndCostText(unit, unitTextPower, unitTextCost);
+    }
+
+    private Unit CreateConcreteUnit(int unitID)
+    {
+        InstantiateUnit(out Unit unit);
+        InitAndSetCostUnit(unit, unitID);
+        AddListenerForButton(unit);
         return unit;
     }
+
+    private void InstantiateUnit(out Unit concreteUnit)
+    {
+        var prefab = _unitPrefabsConfig.PrefabUnit;
+        var createdUnit = GameObject.Instantiate(prefab, _container);
+        concreteUnit = createdUnit.GetComponent<Unit>();
+    }
+
     private void SetPowerAndCostText(Unit unit, Text textPower, Text textCost) {
         textCost.text = unit.GetCost().ToString();
         textPower.text = unit.GetPower().ToString();
@@ -69,10 +75,16 @@ public class UnitsFactory : IService
         unitTextPower = unitTexts[0];
         unitTextCost = unitTexts[1];
     }
-    private void InitUnit(IConcreteUnit concreteUnit, int idUnit) => concreteUnit.Init(_unitStats.GetPowerOfUnit(idUnit), _unitStats.GetSpecialCostOfUnit(idUnit), _unitStats.GetBaseCostOfUnit(idUnit), idUnit);
+    private void InitUnit(Unit concreteUnit, int idUnit) => concreteUnit.Init(_unitStats.GetPowerOfUnit(idUnit), _unitStats.GetSpecialCostOfUnit(idUnit), _unitStats.GetBaseCostOfUnit(idUnit), idUnit);
+    private void AddListenerForButton(Unit unit) => unit.gameObject.GetComponent<Button>().onClick.AddListener(() => ServiceLocator.Get<GameplayPresenter>().DeleteUnitFromField(unit));
+    
     private bool IsThird()
     {
-        return (_activeUnits.Count + 1) % 3 == 0;
+        return (_unitsOnField.Count + 1) % 3 == 0;
+    }
+    private bool IsThird(int ordinalNum)
+    {
+        return (ordinalNum) % 3 == 0;
     }
     private void SetCost(Unit unit, Text costText)
     {
@@ -84,7 +96,25 @@ public class UnitsFactory : IService
         else
         {
             unit.SetBaseCost();
+            costText.color = new Color(1, 1, 1);//Get color from Scriptable
         }
         
     }
+
+    private void SetCost(Unit unit, Text costText, int ordinalNumber)
+    {
+        if (IsThird(ordinalNumber))
+        {
+            unit.SetSpecialCost();
+            costText.color = new Color(141f / 255f, 131f / 255f, 1);//Get color from Scriptable
+        }
+        else
+        {
+            unit.SetBaseCost();
+            costText.color = new Color(1, 1, 1);//Get color from Scriptable
+        }
+
+    }
+
+
 }

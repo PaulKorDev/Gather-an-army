@@ -9,14 +9,13 @@ using UnityEngine.UI;
 public class UnitsUpdater : IService
 {
     private List<Unit> _unitsOnField;
-    SpriteSwitcher _spriteSwitcher;
+
     public UnitsUpdater(List<Unit> unitsOnField)
     {
         ServiceLocator.Get<EventBus>().UnitsOrderChanged.AddListener(UpdateOrderUnitsOnField);
-        ServiceLocator.Get<EventBus>().UnitsTypeChanged.AddListener(UpdateAllSprites);
+        ServiceLocator.Get<EventBus>().UnitsTypeChanged.AddListener(UpdateUnitsSpritesOnField);
 
         _unitsOnField = unitsOnField;
-        _spriteSwitcher = new SpriteSwitcher();
     }
 
     #region Methods for update order on field
@@ -94,7 +93,19 @@ public class UnitsUpdater : IService
     #endregion
 
     #region method for update sprite for unit
-    public void ChangeSprite(Unit unit, int id) => _spriteSwitcher.SetImageToUnit(unit, id);
-    private void UpdateAllSprites(UnitsTypes unitType) => _spriteSwitcher.UpdateAllSprites(unitType);
+    public void SetImageToUnit(Unit unit, int id)
+    {
+        unit.GetComponentInChildren<Image>().sprite = ServiceLocator.Get<UnitSpritesSetter>().GetSpriteOfUnit(id);
+    }
+
+    private void UpdateUnitsSpritesOnField()
+    {
+        List<Unit> unitsOnField = ServiceLocator.Get<UnitObjectPool>().GetAllActiveObjects();
+        foreach (Unit unit in unitsOnField)
+        {
+            int id = unit.GetID();
+            SetImageToUnit(unit, id);
+        }
+    }
     #endregion
 }

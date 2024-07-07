@@ -1,3 +1,4 @@
+using Assets.Scripts.Architecture.EventBus;
 using Assets.Scripts.Architecture.ServiceLocator;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,15 +15,21 @@ public class ButtonsView : MonoBehaviour, IService
 
         _presenter = ServiceLocator.Get<GameplayPresenter>();
 
-        UpdateUnitButtonSprites();
-        UpdateUnitButtonStats();
+        DisplayUnitButtonSprites();
+        DisplayUnitButtonStats();
+        AddListeners();
+    }
 
+    private void AddListeners()
+    {
+        #region Buttons
         _buttClearUnitsField.onClick.AddListener(OnClearButtonClicked);
         _buttsSpawnUnit[0].onClick.AddListener(() => OnSpawnButtonClicked(1));
         _buttsSpawnUnit[1].onClick.AddListener(() => OnSpawnButtonClicked(2));
         _buttsSpawnUnit[2].onClick.AddListener(() => OnSpawnButtonClicked(3));
+        #endregion
+        ServiceLocator.Get<EventBus>().UnitsTypeChanged.AddListener(DisplayUnitButtonSprites);
     }
-
     private void OnSpawnButtonClicked(int id)
     {
         _presenter.CreateUnit(id);
@@ -31,9 +38,8 @@ public class ButtonsView : MonoBehaviour, IService
     {
         _presenter.ClearUnitField();
     }
-    public void UpdateUnitButtonSprites()
+    public void DisplayUnitButtonSprites()
     {
-        //Subsribe to reactive property
         UnitSpritesSetter spritesSetter = ServiceLocator.Get<UnitSpritesSetter>();
 
         for (int i = 0; i < _buttsSpawnUnit.Length; i++) {
@@ -41,7 +47,7 @@ public class ButtonsView : MonoBehaviour, IService
         }
     }
 
-    private void UpdateUnitButtonStats()
+    private void DisplayUnitButtonStats()
     {
         IUnitStats unitStats = ServiceLocator.Get<IUnitStats>();
         for (int i = 0; i < _buttsSpawnUnit.Length; i++) {

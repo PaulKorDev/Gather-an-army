@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Architecture.ServiceLocator;
+﻿using Assets.Scripts.Architecture.EventBus;
+using Assets.Scripts.Architecture.ServiceLocator;
 using UnityEngine;
 
 //This class only init, store and return unit's sprites
@@ -49,6 +50,8 @@ public class UnitSpritesSetter : IService
         SpriteUnit1 = _unitSprites.SpriteUnit1;
         SpriteUnit2 = _unitSprites.SpriteUnit2;
         SpriteUnit3 = _unitSprites.SpriteUnit3;
+
+        ServiceLocator.Get<EventBus>().TrigerUnitsTypeChanged();
     }
 
     public Sprite GetSpriteOfUnit(int ID)

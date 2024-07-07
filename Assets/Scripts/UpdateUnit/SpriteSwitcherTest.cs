@@ -8,7 +8,7 @@ public class SpriteSwitcherTest : MonoBehaviour
 
     private void OnValidate()
     {
-        ServiceLocator.Get<EventBus>().TrigerUnitsTypeChanged(_unitType);
+        ServiceLocator.Get<UnitSpritesSetter>().InitSprites(_unitType);
     }
 
 }

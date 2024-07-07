@@ -11,7 +11,6 @@ public class GameplayServiceLocator : MonoBehaviour
 
     private IUnitStats _unitStats;
     private UnitsFactory _unitsFactory;
-    private UnitPrefabsConfig _unitsPrefabConfig;
     private UnitSpritesSetter _unitSpritesSetter;
     private GameplayPresenter _gameplayPresenter;
     private UnitsUpdater _unitsUpater;
@@ -22,7 +21,6 @@ public class GameplayServiceLocator : MonoBehaviour
     {
         RegisterUnitStats();
         RegisterUnitSpritesSetter();
-        RegisterUnitPrefabsConfig();
         RegisterUnitsUpdater();
         RegisterUnitFactory();
         RegisterObjectPool();
@@ -35,7 +33,6 @@ public class GameplayServiceLocator : MonoBehaviour
         {
             ServiceLocator.Unregister(_unitStats);
             ServiceLocator.Unregister(_unitSpritesSetter);
-            ServiceLocator.Unregister(_unitsPrefabConfig);
             ServiceLocator.Unregister(_unitsUpater);
             ServiceLocator.Unregister(_unitsFactory);
             ServiceLocator.Unregister(_unitObjectPool);
@@ -59,11 +56,7 @@ public class GameplayServiceLocator : MonoBehaviour
         _unitSpritesSetter = new UnitSpritesSetter();
         ServiceLocator.Register(_unitSpritesSetter);
     }
-    private void RegisterUnitPrefabsConfig()
-    {
-        _unitsPrefabConfig = new UnitPrefabsConfig();
-        ServiceLocator.Register(_unitsPrefabConfig);
-    }
+
     private void RegisterUnitsUpdater()
     {
         _unitsUpater = new UnitsUpdater(_spawnedUnits);

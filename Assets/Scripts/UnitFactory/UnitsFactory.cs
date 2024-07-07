@@ -1,21 +1,19 @@
 ﻿using Assets.Scripts.Architecture.ServiceLocator;
-using System;
-using System.Collections.Generic;
 using Units;
 using UnityEngine;
 using UnityEngine.UI;
 public class UnitsFactory : IService
 {
     private Transform _container;
-    private UnitPrefabsConfig _unitPrefabsConfig;
+    private Unit _prefab;
     private IUnitStats _unitStats;
 
     public UnitsFactory(Transform container, IUnitStats unitStats)
     {
-        _unitPrefabsConfig = ServiceLocator.Get<UnitPrefabsConfig>();
+
         _unitStats = unitStats;
         _container = container;
-        _unitPrefabsConfig.InitUnitPrefabs();
+        _prefab = Resources.Load<Unit>(PrefabPaths.UNIT);
     }
     public Unit CreateUnit(int ID = 1)
     {
@@ -40,8 +38,7 @@ public class UnitsFactory : IService
     }
     private void InstantiateUnit(out Unit concreteUnit)
     {
-        var prefab = _unitPrefabsConfig.PrefabUnit;
-        var createdUnit = GameObject.Instantiate(prefab, _container);
+        var createdUnit = GameObject.Instantiate(_prefab, _container);
         concreteUnit = createdUnit.GetComponent<Unit>();
     }
     private void AddListenerForButton(Unit unit)

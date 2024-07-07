@@ -3,6 +3,7 @@ using Assets.Scripts.Architecture.ObjectPool;
 using Assets.Scripts.Architecture.ServiceLocator;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using Assets.Scripts.Architecture.EventBus;
 public class UnitObjectPool : ObjectPool<Unit>, IService
 {
     private static int _preload = 12;
@@ -20,16 +21,19 @@ public class UnitObjectPool : ObjectPool<Unit>, IService
     private static void ReturnEffect(Unit obj)
     {
         obj.gameObject.SetActive(false);
+        ServiceLocator.Get<EventBus>().TrigerUnitsQuantityChanged();
     }
     private static void GetEffect(Unit unit, int id) {
         ServiceLocator.Get<UnitsUpdater>().ChangeSprite(unit, id);
         ServiceLocator.Get<UnitsFactory>().InitAndSetCostUnit(unit, id);
         unit.gameObject.transform.SetAsLastSibling();
         unit.gameObject.SetActive(true);
+        ServiceLocator.Get<EventBus>().TrigerUnitsQuantityChanged();
+
     }
     #endregion
 
-    
+
 
 
 }

@@ -1,7 +1,6 @@
 ﻿using Assets.Scripts.Architecture.ServiceLocator;
 using System.Collections.Generic;
 using System;
-using UnityEngine.Events;
 using System.Linq;
 using UnityEngine;
 
@@ -30,10 +29,7 @@ namespace Assets.Scripts.Architecture.EventBus
     {
         private Dictionary<string, List<CallbackWithPriority>> _signalCallbacks = new Dictionary<string, List<CallbackWithPriority>>();
 
-<<<<<<< Updated upstream
-        public UnityEvent<UnitsTypes> UnitsTypeChanged { get; } = new();
-        public void TrigerUnitsTypeChanged(UnitsTypes unitType) => UnitsTypeChanged?.Invoke(unitType);
-=======
+
         public void Subscribe<T>(Action<T> callback, int priority = 0)
         {
             string key = typeof(T).Name;
@@ -45,7 +41,7 @@ namespace Assets.Scripts.Architecture.EventBus
             {
                 _signalCallbacks.Add(key, new List<CallbackWithPriority>() { new(priority, callback) });
             }
->>>>>>> Stashed changes
+
 
             _signalCallbacks[key] = _signalCallbacks[key].OrderByDescending(x => x.Priority).ToList();
         }

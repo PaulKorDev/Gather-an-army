@@ -22,7 +22,7 @@ public class UnitObjectPool : ObjectPool<Unit>, IService
         obj.gameObject.SetActive(false);
     }
     private static void GetEffect(Unit unit, int id) {
-        ServiceLocator.Get<UnitsUpdater>().ChangeSprite(unit, id);
+        ServiceLocator.Get<UnitsUpdater>().SetImageToUnit(unit, id);
         ServiceLocator.Get<UnitsFactory>().InitAndSetCostUnit(unit, id);
         unit.gameObject.transform.SetAsLastSibling();
         unit.gameObject.SetActive(true);

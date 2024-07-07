@@ -9,8 +9,8 @@ namespace Assets.Scripts.Architecture.EventBus
         public UnityEvent UnitsOrderChanged { get; } = new();
         public void TrigerUnitsOrderChanged() => UnitsOrderChanged?.Invoke();
 
-        public UnityEvent<UnitsTypes> UnitsTypeChanged { get; } = new();
-        public void TrigerUnitsTypeChanged(UnitsTypes unitType) => UnitsTypeChanged?.Invoke(unitType);
+        public UnityEvent UnitsTypeChanged { get; } = new();
+        public void TrigerUnitsTypeChanged() => UnitsTypeChanged?.Invoke();
 
     }
 }

@@ -33,7 +33,7 @@ public class SpriteSwither
     public void UpdateUnitsOnField(UnitsTypes type)
     {
         _spritesSetter.InitSprites(type);
-        List<Unit> unitsOnField = ServiceLocator.Get<UnitsFactory>().GetSpawnedUnitList();
+        List<Unit> unitsOnField = ServiceLocator.Get<UnitObjectPool>().GetAllActiveObjects();
         foreach (Unit unit in unitsOnField) { 
             int id = unit.ID;
             unit.GetComponentInChildren<Image>().sprite = _spritesSetter.GetSpriteOfUnit(id);

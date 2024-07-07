@@ -17,10 +17,11 @@ namespace Assets.Scripts.Architecture.ObjectPool
         private readonly Action<T, int> _getEffect;
 
         private Queue<T> _pool = new Queue<T>();
-        private List<T> _activeObjects = new List<T>();
+        private List<T> _activeObjects;
 
-        public ObjectPool(Func<T> Factory, Action<T, int> GetEffect, Action<T> ReturnEffect, int precount, bool autoExpand = true, int poolLimit = 0)
+        public ObjectPool(List<T> activeObjects, Func<T> Factory, Action<T, int> GetEffect, Action<T> ReturnEffect, int precount, bool autoExpand = true, int poolLimit = 0)
         {
+            _activeObjects = activeObjects;
             AutoExpand = autoExpand;
             _factory = Factory;
             _getEffect = GetEffect;
@@ -78,6 +79,15 @@ namespace Assets.Scripts.Architecture.ObjectPool
             _returnEffect(obj);
             _activeObjects.Remove(obj);
             _pool.Enqueue(obj);
+        }
+        public void ReturnAllActiveObjects()
+        {
+            foreach (T obj in _activeObjects)
+            {
+                _returnEffect(obj);
+                _pool.Enqueue(obj);
+            }
+            _activeObjects.Clear();
         }
 
         public int CountFreeObjects()

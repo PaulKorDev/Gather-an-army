@@ -11,11 +11,7 @@ public class GameplayPresenter : IService
 
     public void ClearUnitField()
     {
-        UnitsFactory factory = ServiceLocator.Get<UnitsFactory>();
-        foreach (var unit in factory.GetSpawnedUnitList())
-        {
-            GameObject.Destroy(unit.gameObject);
-        }
-        factory.GetSpawnedUnitList().Clear();
+        UnitObjectPool pool = ServiceLocator.Get<UnitObjectPool>();
+        pool.ReturnAllActiveObjects();
     }
 }

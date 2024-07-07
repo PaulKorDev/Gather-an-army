@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 public class UnitsFactory : IService
 {
-    private List<Unit> _activeUnits;
+    private List<Unit> _unitsOnField;
     private Transform _container;
     private UnitPrefabsConfig _unitPrefabsConfig;
     private IUnitStats _unitStats;
@@ -13,14 +13,12 @@ public class UnitsFactory : IService
 
     public UnitsFactory(List<Unit> units, Transform container, IUnitStats unitStats)
     {
+        _unitsOnField = units;
         _unitPrefabsConfig = ServiceLocator.Get<UnitPrefabsConfig>();
         _unitStats = unitStats;
-        _activeUnits = units;
         _container = container;
         _unitPrefabsConfig.InitUnitPrefabs();
     }
-
-    public List<Unit> GetSpawnedUnitList() { return _activeUnits; }
 
     public Unit CreateUnit(int ID = 1)
     {
@@ -38,7 +36,6 @@ public class UnitsFactory : IService
         GetUnitText(unit, out Text unitTextPower, out Text unitTextCost);
         SetCost(unit, unitTextCost);
         SetPowerAndCostText(unit, unitTextPower, unitTextCost);
-        AddUnitToActiveList(unit);
     }
 
     private Unit CreateUnit1()
@@ -65,8 +62,6 @@ public class UnitsFactory : IService
         return unit;
     }
 
-    private void AddUnitToActiveList(Unit unit) => _activeUnits.Add(unit);
-
     private void InstantiateUnit(GameObject prefab, out Unit concreteUnit)
     {
         var createdUnit = GameObject.Instantiate(prefab, _container);
@@ -86,7 +81,7 @@ public class UnitsFactory : IService
     private void InitUnit(Unit concreteUnit, int idUnit) => concreteUnit.Init(_unitStats.GetPowerOfUnit(idUnit), _unitStats.GetSpecialCostOfUnit(idUnit), _unitStats.GetBaseCostOfUnit(idUnit), idUnit);
     private bool IsThird()
     {
-        return (_activeUnits.Count + 1) % 3 == 0;
+        return (_unitsOnField.Count + 1) % 3 == 0;
     }
     private void SetCost(Unit unit, Text costText)
     {

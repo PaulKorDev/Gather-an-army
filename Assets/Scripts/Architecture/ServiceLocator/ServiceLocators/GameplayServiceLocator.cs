@@ -67,7 +67,7 @@ public class GameplayServiceLocator : MonoBehaviour
     }
     private void RegisterObjectPool()
     {
-        _unitObjectPool = new UnitObjectPool();
+        _unitObjectPool = new UnitObjectPool(_spawnedUnits);
         ServiceLocator.Register(_unitObjectPool);
     }
     private void RegisterGameplayPresenter()

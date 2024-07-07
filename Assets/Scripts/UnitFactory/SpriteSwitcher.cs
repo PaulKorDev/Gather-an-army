@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Architecture.ServiceLocator;
+﻿using Assets.Scripts.Architecture.EventBus;
+using Assets.Scripts.Architecture.ServiceLocator;
 using System.Collections.Generic;
 using Units;
 using UnityEngine.UI;
@@ -10,36 +11,41 @@ public class SpriteSwitcher
     public SpriteSwitcher()
     {
         _spritesSetter = ServiceLocator.Get<UnitSpritesSetter>();
+        
     }
 
     public void UpdateAllSprites(UnitsTypes type)
     {
         UpdateUnitPrefab(type);
         UpdateUnitSpawnButton(type);
-        UpdateUnitsOnField(type);
+        UpdateUnitsSpritesOnField(type);
     }
 
-    public void UpdateUnitPrefab(UnitsTypes type)
+    public void SetImageToUnit(Unit unit, int id)
+    {
+        unit.GetComponentInChildren<Image>().sprite = ServiceLocator.Get<UnitSpritesSetter>().GetSpriteOfUnit(id);
+    }
+
+    #region UpdateAllSprites methods
+    private void UpdateUnitPrefab(UnitsTypes type)
     {
         _spritesSetter.InitSprites(type);
         ServiceLocator.Get<UnitPrefabsConfig>().InitUnitPrefabs();
     }
-    public void UpdateUnitSpawnButton(UnitsTypes type)
+    private void UpdateUnitSpawnButton(UnitsTypes type)
     {
         _spritesSetter.InitSprites(type);
         ServiceLocator.Get<ButtonsView>().UpdateUnitButtonSprites();
 
     }
-    public void UpdateUnitsOnField(UnitsTypes type)
+    private void UpdateUnitsSpritesOnField(UnitsTypes type)
     {
         _spritesSetter.InitSprites(type);
         List<Unit> unitsOnField = ServiceLocator.Get<UnitObjectPool>().GetAllActiveObjects();
         foreach (Unit unit in unitsOnField) { 
             int id = unit.GetID();
-            unit.GetComponentInChildren<Image>().sprite = _spritesSetter.GetSpriteOfUnit(id);
+            SetImageToUnit(unit, id);
         }
-        
-
     }
-
+    #endregion
 }

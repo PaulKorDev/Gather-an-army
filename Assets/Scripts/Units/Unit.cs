@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 namespace Units
 {
@@ -6,10 +6,9 @@ namespace Units
     {
         private int _power;
         private int _cost;
-        protected int _baseCost;
-        protected int _specialCost;
-
-        public int ID { get; private set; }
+        private int _baseCost;
+        private int _specialCost;
+        private int _id;
 
         public void Init (int power, int specialCost, int baseCost, int ID)
         {
@@ -17,21 +16,18 @@ namespace Units
             _specialCost = specialCost;
             _baseCost = baseCost;
             _cost = _baseCost;
-
-            this.ID = ID; 
+            _id = ID;
         }
+
+        public int GetID() => _id;
 
         public int GetCost() => _cost;
 
         public int GetPower() => _power;
 
-        public void SetBaseCost()
-        {
-            _cost = _baseCost;
-        }
-        public void SetSpecialCost()
-        {
-            _cost = _specialCost;
-        }
+        public void SetBaseCost() => _cost = _baseCost;
+        
+        public void SetSpecialCost() => _cost = _specialCost;
+        
     }
 }

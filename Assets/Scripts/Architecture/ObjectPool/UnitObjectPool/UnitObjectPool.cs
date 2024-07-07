@@ -13,12 +13,21 @@ public class UnitObjectPool : ObjectPool<Unit>, IService
     {
     }
 
-    private static Unit FactoryMethod() => ServiceLocator.Get<UnitsFactory>().CreateUnit();
+    private static Unit FactoryMethod(int index)
+    {
+        var createdUnit = ServiceLocator.Get<UnitsFactory>().CreateUnit();
+        createdUnit.Index = index;
+        return createdUnit;
+    }
     private static void GetEffect(Unit unit, int id) {
         unit.GetComponentInChildren<Image>().sprite = ServiceLocator.Get<UnitSpritesSetter>().GetSpriteOfUnit(id);
         ServiceLocator.Get<UnitsFactory>().InitAndSetCostUnit(unit, id);
         unit.gameObject.SetActive(true);
     }
-    private static void ReturnEffect(Unit obj) => obj.gameObject.SetActive(false);
+    private static void ReturnEffect(Unit obj, List<Unit> _pool)
+    {
+        _pool.Insert(obj.Index, obj);
+        obj.gameObject.SetActive(false);
+    }
 }
 

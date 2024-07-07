@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Architecture.ServiceLocator;
+using Units;
 using UnityEngine;
 
 public class GameplayPresenter : IService
@@ -13,5 +14,10 @@ public class GameplayPresenter : IService
     {
         UnitObjectPool pool = ServiceLocator.Get<UnitObjectPool>();
         pool.ReturnAllActiveObjects();
+    }
+
+    public void DeleteUnitFromField(Unit unit)
+    {
+        UnitObjectPool pool = ServiceLocator.Get<UnitObjectPool>();
     }
 }

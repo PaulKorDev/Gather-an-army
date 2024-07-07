@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Architecture.ServiceLocator;
+using System;
 using System.Collections.Generic;
 using Units;
 using UnityEngine;
@@ -36,7 +37,11 @@ public class UnitsFactory : IService
         GetUnitText(unit, out Text unitTextPower, out Text unitTextCost);
         SetCost(unit, unitTextCost);
         SetPowerAndCostText(unit, unitTextPower, unitTextCost);
+        AddListenerForButton(unit, unitID);
     }
+
+    
+
     private Unit CreateConcreteUnit(int unitID)
     {
         InstantiateUnit(out Unit unit);
@@ -63,6 +68,8 @@ public class UnitsFactory : IService
         unitTextCost = unitTexts[1];
     }
     private void InitUnit(Unit concreteUnit, int idUnit) => concreteUnit.Init(_unitStats.GetPowerOfUnit(idUnit), _unitStats.GetSpecialCostOfUnit(idUnit), _unitStats.GetBaseCostOfUnit(idUnit), idUnit);
+    private void AddListenerForButton(Unit unit, int unitID) => unit.gameObject.GetComponent<Button>().onClick.AddListener(() => ServiceLocator.Get<GameplayPresenter>().DeleteUnitFromField(unit));
+    
     private bool IsThird()
     {
         return (_unitsOnField.Count + 1) % 3 == 0;

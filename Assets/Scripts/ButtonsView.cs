@@ -15,6 +15,7 @@ public class ButtonsView : MonoBehaviour, IService
         _presenter = ServiceLocator.Get<GameplayPresenter>();
 
         UpdateUnitButtonSprites();
+        UpdateUnitButtonStats();
 
         _buttClearUnitsField.onClick.AddListener(OnClearButtonClicked);
         _buttsSpawnUnit[0].onClick.AddListener(() => OnSpawnButtonClicked(1));
@@ -30,7 +31,6 @@ public class ButtonsView : MonoBehaviour, IService
     {
         _presenter.ClearUnitField();
     }
-
     public void UpdateUnitButtonSprites()
     {
         //Subsribe to reactive property
@@ -38,6 +38,17 @@ public class ButtonsView : MonoBehaviour, IService
 
         for (int i = 0; i < _buttsSpawnUnit.Length; i++) {
             _buttsSpawnUnit[i].transform.GetChild(0).GetComponent<Image>().sprite = spritesSetter.GetSpriteOfUnit(i+1);
+        }
+    }
+
+    private void UpdateUnitButtonStats()
+    {
+        IUnitStats unitStats = ServiceLocator.Get<IUnitStats>();
+        for (int i = 0; i < _buttsSpawnUnit.Length; i++) {
+            Text[] texts = _buttsSpawnUnit[i].GetComponentsInChildren<Text>();
+            texts[0].text = unitStats.GetPowerOfUnit(i + 1).ToString();
+            texts[1].text = unitStats.GetSpecialCostOfUnit(i + 1).ToString();
+            texts[2].text = unitStats.GetBaseCostOfUnit(i + 1).ToString();
         }
     }
 

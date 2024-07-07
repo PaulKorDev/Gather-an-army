@@ -23,9 +23,9 @@ public class UnitsFactory : IService
     public Unit CreateUnit(int ID = 1)
     {
         switch (ID) {
-            case 1: return CreateUnit1();
-            case 2: return CreateUnit2();
-            case 3: return CreateUnit3();
+            case 1: return CreateConcreteUnit(1);
+            case 2: return CreateConcreteUnit(2);
+            case 3: return CreateConcreteUnit(3);
             default: throw new System.Exception($"UnitFactory: hasn't id {ID}");
         }
     }
@@ -37,33 +37,17 @@ public class UnitsFactory : IService
         SetCost(unit, unitTextCost);
         SetPowerAndCostText(unit, unitTextPower, unitTextCost);
     }
-
-    private Unit CreateUnit1()
+    private Unit CreateConcreteUnit(int unitID)
     {
-        var prefab = _unitPrefabsConfig.PrefabUnit1;
-        return CreateUnit(prefab, 1);
-    }
-    private Unit CreateUnit2()
-    {
-        var prefab = _unitPrefabsConfig.PrefabUnit2;
-        return CreateUnit(prefab, 2);
-    }
-    private Unit CreateUnit3()
-    {
-        var prefab = _unitPrefabsConfig.PrefabUnit3;
-        return CreateUnit(prefab, 3);
-    }
-
-    private Unit CreateUnit(GameObject prefab, int unitID)
-    {
-        InstantiateUnit(prefab, out Unit unit);
+        InstantiateUnit(out Unit unit);
         InitAndSetCostUnit(unit, unitID);
 
         return unit;
     }
 
-    private void InstantiateUnit(GameObject prefab, out Unit concreteUnit)
+    private void InstantiateUnit(out Unit concreteUnit)
     {
+        var prefab = _unitPrefabsConfig.PrefabUnit;
         var createdUnit = GameObject.Instantiate(prefab, _container);
         concreteUnit = createdUnit.GetComponent<Unit>();
     }

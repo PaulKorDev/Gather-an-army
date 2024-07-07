@@ -5,7 +5,7 @@ namespace Assets.Scripts.Architecture.ObjectPool
 {
     public class ObjectPool<T> where T : MonoBehaviour
     {
-        //Uncomment if using Assets.Scripts.Architecture.ReactiveProperty, and you will can to change pool limit dinamicaly.
+        //Uncomment if using Assets.Scripts.Architecture.ReactiveProperty, and you will can to change pool limit dinamically.
         //public ReactiveProperty<int> PoolLimit;
 
         //Comment if using Assets.Scripts.Architecture.ReactiveProperty
@@ -16,7 +16,7 @@ namespace Assets.Scripts.Architecture.ObjectPool
         private readonly Action<T> _returnEffect;
         private readonly Action<T, int> _getEffect;
 
-        private Queue<T> _pool = new Queue<T>();
+        private Queue<T> _freeObjects = new Queue<T>();
         private List<T> _activeObjects;
 
         public ObjectPool(List<T> activeObjects, Func<T> Factory, Action<T, int> GetEffect, Action<T> ReturnEffect, int precount, bool autoExpand = true, int poolLimit = 0)
@@ -40,9 +40,9 @@ namespace Assets.Scripts.Architecture.ObjectPool
 
         public T GetObject(int ID)
         {
-            if (_pool.Count > 0)
+            if (_freeObjects.Count > 0)
             {
-                T obj = _pool.Dequeue();       
+                T obj = _freeObjects.Dequeue();       
                 _getEffect(obj, ID);
                 _activeObjects.Add(obj);
                 return obj;
@@ -62,7 +62,7 @@ namespace Assets.Scripts.Architecture.ObjectPool
         {
             List<T> allObjects = new List<T>();
 
-            foreach (T obj in _pool)
+            foreach (T obj in _freeObjects)
                 allObjects.Add(obj);
             foreach (T obj in _activeObjects)
                 allObjects.Add(obj);
@@ -78,21 +78,21 @@ namespace Assets.Scripts.Architecture.ObjectPool
         {
             _returnEffect(obj);
             _activeObjects.Remove(obj);
-            _pool.Enqueue(obj);
+            _freeObjects.Enqueue(obj);
         }
         public void ReturnAllActiveObjects()
         {
             foreach (T obj in _activeObjects)
             {
                 _returnEffect(obj);
-                _pool.Enqueue(obj);
+                _freeObjects.Enqueue(obj);
             }
             _activeObjects.Clear();
         }
 
         public int CountFreeObjects()
         {
-            return _pool.Count;
+            return _freeObjects.Count;
         }
         public int CountActiveObjects()
         {

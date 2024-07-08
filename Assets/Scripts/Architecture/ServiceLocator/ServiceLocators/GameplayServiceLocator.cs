@@ -1,3 +1,4 @@
+using Assets.Scripts.Architecture.EventBus;
 using Assets.Scripts.Architecture.ObjectPool;
 using Assets.Scripts.Architecture.ServiceLocator;
 using System.Collections.Generic;
@@ -25,7 +26,7 @@ public class GameplayServiceLocator : MonoBehaviour
         RegisterUnitFactory();
         RegisterObjectPool();
         RegisterGameplayPresenter();
-        RegisterButtonView();
+        RegisterButtonView();   
     }
     private void OnDestroy()
     {

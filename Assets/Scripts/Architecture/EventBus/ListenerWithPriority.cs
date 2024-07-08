@@ -2,27 +2,25 @@
 
 namespace Assets.Scripts.Architecture.EventBus
 {
-    public class ListenerWithPriority
+    //Here is many repeats but I hope it's not too critical
+    public abstract class BaseListenerWithPriority<T>
     {
-        public readonly Action Listener;
+        public readonly T Listener;
         public readonly int Priority;
 
-        public ListenerWithPriority(Action listener, int priority)
+        protected BaseListenerWithPriority(T listener, int priority)
         {
             Listener = listener;
             Priority = priority;
         }
     }
-    public class ListenerWithPriority<T1>
+    public class ListenerWithPriority : BaseListenerWithPriority<Action>
     {
-        public readonly Action<T1> Listener;
-        public readonly int Priority;
-
-        public ListenerWithPriority(Action<T1> listener, int priority)
-        {
-            Listener = listener;
-            Priority = priority;
-        }
+        public ListenerWithPriority(Action listener, int priority) : base(listener, priority){}
+    }
+    public class ListenerWithPriority<T1> : BaseListenerWithPriority<Action<T1>>
+    {
+        public ListenerWithPriority(Action<T1> listener, int priority) : base(listener, priority){}
     }
     public class ListenerWithPriority<T1, T2> 
     {

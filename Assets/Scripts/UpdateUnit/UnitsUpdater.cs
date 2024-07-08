@@ -12,8 +12,8 @@ public class UnitsUpdater : IService
 
     public UnitsUpdater(List<Unit> unitsOnField)
     {
-        ServiceLocator.Get<EventBus>().UnitsOrderChanged.AddListener(UpdateOrderUnitsOnField);
-        ServiceLocator.Get<EventBus>().UnitsTypeChanged.AddListener(UpdateUnitsSpritesOnField);
+        ServiceLocator.Get<EventBus>().UnitsOrderChanged.Subscribe(UpdateOrderUnitsOnField);
+        ServiceLocator.Get<EventBus>().UnitsTypeChanged.Subscribe(UpdateUnitsSpritesOnField);
 
         _unitsOnField = unitsOnField;
     }

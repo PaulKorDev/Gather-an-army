@@ -28,7 +28,7 @@ public class ButtonsView : MonoBehaviour, IService
         _buttsSpawnUnit[1].onClick.AddListener(() => OnSpawnButtonClicked(2));
         _buttsSpawnUnit[2].onClick.AddListener(() => OnSpawnButtonClicked(3));
         #endregion
-        ServiceLocator.Get<EventBus>().UnitsTypeChanged.AddListener(DisplayUnitButtonSprites);
+        ServiceLocator.Get<EventBus>().UnitsTypeChanged.Subscribe(DisplayUnitButtonSprites);
     }
     private void OnSpawnButtonClicked(int id)
     {

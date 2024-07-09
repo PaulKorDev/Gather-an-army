@@ -15,7 +15,7 @@ Diverse units: Each unit has a unique strength and price.
 Strategic choice: Decide which units to buy to create the right army for each mission.
 Special price: Every third unit on the field costs a special price.
 
-# Used Patterns:
+## Used Patterns:
 • Entry point
 • State Machine
 • Service Locator
@@ -24,11 +24,11 @@ Special price: Every third unit on the field costs a special price.
 • Factory
 • MV*: MVP or something akin
 
-# Plugins
+## Plugins
 • DOTween
 • UniRx
 
-# Features
+## Features
 • Dynamic replacement of unit sprites during the game. The sprites are optimized and drawn independently. There are currently 2 types of units: medieval and soldiers.
 • Dynamic theme change during the game. Theme settings are in ScriptableObjects. There are currently 2 themes: light and dark.
 • Dynamic localization change during the game. Localization is pulled from an excel file. There are currently 3 languages: English, Armenian and Russian.

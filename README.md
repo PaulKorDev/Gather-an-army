@@ -31,6 +31,8 @@ Special price: Every third unit on the field costs a special price.
 
 • Event Bus
 
+• Reactive programming
+
 • Factory
 
 • MV*: MVP or something akin

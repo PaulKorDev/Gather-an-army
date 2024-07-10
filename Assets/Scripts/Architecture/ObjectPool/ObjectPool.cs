@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Assets.Scripts.Architecture.ReactiveProperty;
 
 namespace Assets.Scripts.Architecture.ObjectPool
 {
@@ -18,6 +17,7 @@ namespace Assets.Scripts.Architecture.ObjectPool
         private readonly Action<T> _returnEffect;
         private readonly Action<T, int> _getEffect;
 
+        //private List<T> _freeObjects = new List<T>();
         private Queue<T> _freeObjects = new Queue<T>();
         private List<T> _activeObjects;
 
@@ -45,8 +45,8 @@ namespace Assets.Scripts.Architecture.ObjectPool
             if (_freeObjects.Count > 0)
             {
                 T obj = _freeObjects.Dequeue();
-                _activeObjects.Add(obj);
                 _getEffect(obj, ID);
+                _activeObjects.Add(obj);
                 return obj;
             } else if (AutoExpand)
             {
@@ -61,8 +61,8 @@ namespace Assets.Scripts.Architecture.ObjectPool
         }
         public void ReturnObject(T obj)
         {
-            _activeObjects.Remove(obj);
             _returnEffect(obj);
+            _activeObjects.Remove(obj);
             _freeObjects.Enqueue(obj);
         }
         public void ReturnAllActiveObjects()

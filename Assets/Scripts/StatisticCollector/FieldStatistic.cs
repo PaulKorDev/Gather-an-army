@@ -8,36 +8,34 @@ public class FieldStatistic
     private int _allPower = 0;
     private int _quantity = 0;
 
-    private List<Unit> unitsOnField;
-
     public FieldStatistic()
     {
-        unitsOnField = ServiceLocator.Get<UnitObjectPool>().GetAllActiveObjects();
+        
         //ServiceLocator.Get<EventBus>().UnitsQuantityChanged.Subscribe(UpdateBalance);
-        ServiceLocator.Get<EventBus>().UnitsQuantityChanged.Subscribe(UpdateAllPowerAndQuantity);
+        ServiceLocator.Get<GameplayReactive>().ActiveUnits.OnListChanged += UpdateAllPowerAndQuantity;
     }
 
     private void UpdateBalance()
     {
 
     }
-    private void UpdateAllPowerAndQuantity()
+    private void UpdateAllPowerAndQuantity(List<Unit> units)
     {
-        UpdateAllPower();
-        UpdateQuantity();
+        UpdateAllPower(units);
+        UpdateQuantity(units);
 
         ServiceLocator.Get<EventBus>().FieldStatisticChanged.Trigger(_allPower, _quantity);
     }
-    private void UpdateAllPower()
+    private void UpdateAllPower(List<Unit> units)
     {
         _allPower = 0;
 
-        foreach (var unit in unitsOnField) {
+        foreach (var unit in units) {
             _allPower += unit.GetPower();
         }
     }
-    private void UpdateQuantity()
+    private void UpdateQuantity(List<Unit> units)
     {
-        _quantity = unitsOnField.Count;
+        _quantity = units.Count;
     }
 }

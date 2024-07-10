@@ -18,9 +18,9 @@ namespace Assets.Scripts.Architecture.Reactive
                 OnChanged?.Invoke(_value);
             }
         }
-        public ReactiveProperty(T defaultValue)
+        public ReactiveProperty(T startValue)
         {
-            Value = defaultValue;
+            Value = startValue;
         }
     }
 }

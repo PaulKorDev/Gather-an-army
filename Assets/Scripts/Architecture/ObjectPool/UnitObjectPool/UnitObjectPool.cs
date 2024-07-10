@@ -4,13 +4,14 @@ using Assets.Scripts.Architecture.ServiceLocator;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using Assets.Scripts.Architecture.EventBus;
+using Assets.Scripts.Architecture.Reactive;
 public class UnitObjectPool : ObjectPool<Unit>, IService
 {
     private static int _preload = 12;
     private static bool _autoExpand = true;
     private static int _poolLimit = 24;
 
-    public UnitObjectPool(List<Unit> activeUnitsList) : base(activeUnitsList, FactoryMethod, GetEffect, ReturnEffect, _preload, _autoExpand, _poolLimit) { }
+    public UnitObjectPool(ReactiveList<Unit> activeUnitsList) : base(activeUnitsList, FactoryMethod, GetEffect, ReturnEffect, _preload, _autoExpand, _poolLimit) { }
   
     #region Constructor methods
     private static Unit FactoryMethod()

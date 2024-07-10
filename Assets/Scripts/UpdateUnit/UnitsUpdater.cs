@@ -8,21 +8,18 @@ using UnityEngine.UI;
 
 public class UnitsUpdater : IService
 {
-    private List<Unit> _unitsOnField;
-
+    private List<Unit> _activePool;
     public UnitsUpdater(List<Unit> unitsOnField)
     {
-        ServiceLocator.Get<EventBus>().UnitsOrderChanged.Subscribe(UpdateOrderUnitsOnField);
+        _activePool = ServiceLocator.Get<GameplayReactive>().ActiveUnits.GetUsualList();
+        ServiceLocator.Get<GameplayReactive>().ActiveUnits.OnListChanged += UpdateOrderUnitsOnField;
         ServiceLocator.Get<EventBus>().UnitsTypeChanged.Subscribe(UpdateUnitsSpritesOnField);
 
-        _unitsOnField = unitsOnField;
     }
 
     #region Methods for update order on field
-    private async void UpdateOrderUnitsOnField()
+    private async void UpdateOrderUnitsOnField(List<Unit> activePool)
     {
-        UnitObjectPool pool = ServiceLocator.Get<UnitObjectPool>();
-        List<Unit> activePool = pool.GetAllActiveObjects();
         await SortActiveObjectOnField(activePool);
         await UpdateCostOfUnitsOnField(activePool);
     }
@@ -87,7 +84,7 @@ public class UnitsUpdater : IService
     }
     private bool IsThird()
     {
-        return (_unitsOnField.Count + 1) % 3 == 0;
+        return (_activePool.Count + 1) % 3 == 0;
     }
     #endregion
     #endregion
@@ -100,8 +97,7 @@ public class UnitsUpdater : IService
 
     private void UpdateUnitsSpritesOnField()
     {
-        List<Unit> unitsOnField = ServiceLocator.Get<UnitObjectPool>().GetAllActiveObjects();
-        foreach (Unit unit in unitsOnField)
+        foreach (Unit unit in _activePool)
         {
             int id = unit.GetID();
             SetImageToUnit(unit, id);

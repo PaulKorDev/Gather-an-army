@@ -64,4 +64,48 @@ Special price: Every third unit on the field costs a special price.
 • GUI animation using DOTWEEN. 
 
 # Road map
-Soon
+
+✔ Create and adjsut UI on gameplay scene: prefabs, layout groups, buttons, texts etc.
+
+✔Create C# Unit class and his childrens
+
+✔ Create C# Unit Factory
+
+✔ Spawn units and show his stats (power, cost, special cost) in the console
+
+✔ Create prefabs of units and spawn his on field by pressing buttons
+
+✔ Add new type of units (new sprites) and adjsut flexible switching between them
+
+✔ Spawn units with inited stats (stats getted from IUnitStat)
+
+✔ Create Entry Point
+
+✔ StateMachine for game and Game Handler for handling game states
+
+✔ Add ServiceLocator and register existing services
+
+✔ Add BootstrapScene and adjust initialization of game
+
+✔ Adjust trasit between scenes
+
+✔ Separate view and logic (used MVP or something akin)
+
+✔ Dinamically switching between unit types during the game
+
+✔ Object Pool for spawn units
+
+✔ Ability to clear the field from units
+
+✔ Ability to delete a specific unit by clicking on it
+
+✔ Recount units cost after changing their order on field
+
+✔ Initialization button (sprites and stats)
+
+✔ EventBus with adjustable listener call order
+
+✔ Collecting statistic on field (all power, quantity of units, how much money left) with UniRx
+
+In process
+

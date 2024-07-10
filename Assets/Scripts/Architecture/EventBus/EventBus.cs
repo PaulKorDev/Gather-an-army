@@ -8,7 +8,6 @@ namespace Assets.Scripts.Architecture.EventBus
 
     public class EventBus : IService
     {
-        public CustomEvent UnitsOrderChanged { get; } = new();
         public CustomEvent UnitsQuantityChanged { get; } = new();
         public CustomEvent UnitsTypeChanged { get; } = new();
         public CustomEvent<int, int> FieldStatisticChanged { get; } = new();

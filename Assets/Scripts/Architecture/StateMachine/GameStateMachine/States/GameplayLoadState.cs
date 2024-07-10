@@ -19,19 +19,29 @@ public class GameplayLoadState : BaseGameState
     
 
     private IEnumerator LoadGamplay(){
+
         yield return SceneLoader.LoadScene(Scenes.GAMEPLAY);
 
-        GameplayServiceLocator gamplayServiceLocator = GameObject.FindAnyObjectByType<GameplayServiceLocator>();
-        gamplayServiceLocator.RegisterAllServices();
-
-        
-        ServiceLocator.Get<ButtonsView>().Init();
-
+        RegisterServicesToServiceLocator();
+        new FieldStatistic();
+        InitGameplayView();
+        //Temporary script
         GameObject.Find("UI").AddComponent<SpriteSwitcherTest>();
 
-        _stateMachine.EnterToState<GameplayState>();
+        MoveToNextState();
 
         ServiceLocator.Get<UILoadingScreenView>().HideLoadingScreen();
     }
 
+    private void RegisterServicesToServiceLocator()
+    {
+        GameplayServiceLocator gamplayServiceLocator = GameObject.FindAnyObjectByType<GameplayServiceLocator>();
+        gamplayServiceLocator.RegisterAllServices();
+    }
+    private void InitGameplayView()
+    {
+        ServiceLocator.Get<ButtonsView>().Init();
+        GameObject.FindFirstObjectByType<FieldStatiscticsView>().Init();
+    }
+    private void MoveToNextState() => _stateMachine.EnterToState<GameplayState>();
 }

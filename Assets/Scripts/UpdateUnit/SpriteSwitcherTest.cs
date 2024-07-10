@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.Architecture.EventBus;
-using Assets.Scripts.Architecture.ServiceLocator;
+﻿using Assets.Scripts.Architecture.ServiceLocator;
 using UnityEngine;
 
 public class SpriteSwitcherTest : MonoBehaviour

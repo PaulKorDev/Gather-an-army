@@ -5,14 +5,15 @@ namespace Assets.Scripts.Architecture.ReactiveProperty
 {
     public class ReactiveProperty<T>
     {
-        public ReactiveProperty(T defaultValue)
-        {
-            Value = defaultValue;
-        }
         public event Action<T> OnChanged;
 
         private T _value;
 
+        public ReactiveProperty(){ }
+        public ReactiveProperty(T defaultValue)
+        {
+            Value = defaultValue;
+        }
         public T Value
         {
             get { return _value; }

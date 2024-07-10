@@ -20,7 +20,7 @@ public class GameplayPresenter : IService
     {
         UnitObjectPool pool = ServiceLocator.Get<UnitObjectPool>();
         pool.ReturnObject(unit);
-        ServiceLocator.Get<EventBus>().TrigerUnitsOrderChanged();
+        ServiceLocator.Get<EventBus>().UnitsQuantityChanged.Trigger();
     }
 
     

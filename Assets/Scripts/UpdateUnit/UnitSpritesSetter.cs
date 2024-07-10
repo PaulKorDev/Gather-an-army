@@ -51,7 +51,7 @@ public class UnitSpritesSetter : IService
         SpriteUnit2 = _unitSprites.SpriteUnit2;
         SpriteUnit3 = _unitSprites.SpriteUnit3;
 
-        ServiceLocator.Get<EventBus>().TrigerUnitsTypeChanged();
+        ServiceLocator.Get<EventBus>().UnitsTypeChanged.Trigger();
     }
 
     public Sprite GetSpriteOfUnit(int ID)

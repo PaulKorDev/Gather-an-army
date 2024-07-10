@@ -11,6 +11,8 @@ namespace Assets.Scripts.Architecture.Reactive
         public Action<List<T>> OnListChanged;
 
         private List<T> _list;
+
+        public int Count => _list.Count;
     
         public ReactiveList(List<T> startList)
         {
@@ -42,6 +44,15 @@ namespace Assets.Scripts.Architecture.Reactive
 
             OnListCleared?.Invoke(_list);
             OnListChanged?.Invoke(_list);
+        }
+        public T GetElement(int index)
+        {
+            return _list[index];
+
+        }
+        public List<T> GetUsualList()
+        {
+            return _list; 
         }
 
     }

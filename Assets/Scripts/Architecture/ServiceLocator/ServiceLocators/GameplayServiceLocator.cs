@@ -16,10 +16,12 @@ public class GameplayServiceLocator : MonoBehaviour
     private GameplayPresenter _gameplayPresenter;
     private UnitsUpdater _unitsUpater;
     private UnitObjectPool _unitObjectPool;
+    private GameplayReactive _gameplayReactive;
     private List<Unit> _spawnedUnits = new List<Unit>();
 
     public void RegisterAllServices()
     {
+        RegisterReactive();
         RegisterUnitStats();
         RegisterUnitSpritesSetter();
         RegisterUnitsUpdater();
@@ -47,6 +49,11 @@ public class GameplayServiceLocator : MonoBehaviour
     }
 
     #region Register methods
+    private void RegisterReactive()
+    {
+        _gameplayReactive = new GameplayReactive(_spawnedUnits);
+        ServiceLocator.Register(_gameplayReactive);
+    }
     private void RegisterUnitStats()
     {
         _unitStats = new UnitStatsHardCode();
@@ -70,7 +77,7 @@ public class GameplayServiceLocator : MonoBehaviour
     }
     private void RegisterObjectPool()
     {
-        _unitObjectPool = new UnitObjectPool(_spawnedUnits);
+        _unitObjectPool = new UnitObjectPool(_gameplayReactive.ActiveUnits);
         ServiceLocator.Register(_unitObjectPool);
     }
     private void RegisterGameplayPresenter()

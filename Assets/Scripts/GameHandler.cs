@@ -12,10 +12,7 @@ public sealed class GameHandler : MonoBehaviour
         AddStates();
         stateMachine.EnterToState<BootstrapState>();
     }
-    private void Update()
-    {
-        stateMachine?.CurrentState.UpdateLogic();
-    }
+
     private void AddStates()
     {
         stateMachine.AddState(new BootstrapState(stateMachine));

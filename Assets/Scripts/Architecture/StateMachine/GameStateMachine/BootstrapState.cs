@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class BootstrapState : BaseGameState
 {
+    
     public BootstrapState(StateMachine<BaseGameState> stateMachine) : base(stateMachine)
     {
     }
@@ -13,11 +14,11 @@ public class BootstrapState : BaseGameState
     public override void Enter()
     {
         //Here register all general services
+        BootstrapServiceLocator bootstrapServiceLocator = new BootstrapServiceLocator();
+        bootstrapServiceLocator.RegisterAllServices();
+
         _stateMachine.EnterToState<GameplayLoadState>();
 
     }
-    public override void UpdateLogic()
-    {
-        
-    }
+
 }

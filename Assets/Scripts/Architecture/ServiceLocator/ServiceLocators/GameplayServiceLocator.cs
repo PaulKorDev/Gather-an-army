@@ -1,3 +1,4 @@
+using Assets.Scripts.Architecture.EventBus;
 using Assets.Scripts.Architecture.ObjectPool;
 using Assets.Scripts.Architecture.ServiceLocator;
 using System.Collections.Generic;
@@ -11,32 +12,33 @@ public class GameplayServiceLocator : MonoBehaviour
 
     private IUnitStats _unitStats;
     private UnitsFactory _unitsFactory;
-    private UnitPrefabsConfig _unitsPrefabConfig;
     private UnitSpritesSetter _unitSpritesSetter;
     private GameplayPresenter _gameplayPresenter;
+    private UnitsUpdater _unitsUpater;
     private UnitObjectPool _unitObjectPool;
     private List<Unit> _spawnedUnits = new List<Unit>();
 
     public void RegisterAllServices()
     {
-        RegisterGameplayPresenter();
         RegisterUnitStats();
         RegisterUnitSpritesSetter();
-        RegisterUnitPrefabsConfig();
+        RegisterUnitsUpdater();
         RegisterUnitFactory();
-        RegisterButtonView();
         RegisterObjectPool();
+        RegisterGameplayPresenter();
+        RegisterButtonView();   
     }
     private void OnDestroy()
     {
         try
         {
             ServiceLocator.Unregister(_unitStats);
+            ServiceLocator.Unregister(_unitSpritesSetter);
+            ServiceLocator.Unregister(_unitsUpater);
             ServiceLocator.Unregister(_unitsFactory);
+            ServiceLocator.Unregister(_unitObjectPool);
             ServiceLocator.Unregister(_gameplayPresenter);
             ServiceLocator.Unregister(_buttonView);
-            ServiceLocator.Unregister(_unitSpritesSetter);
-            ServiceLocator.Unregister(_unitsPrefabConfig);
 
         } catch
         {
@@ -44,7 +46,7 @@ public class GameplayServiceLocator : MonoBehaviour
         }
     }
 
-    private void RegisterButtonView() => ServiceLocator.Register(_buttonView);
+    #region Register methods
     private void RegisterUnitStats()
     {
         _unitStats = new UnitStatsHardCode();
@@ -55,14 +57,15 @@ public class GameplayServiceLocator : MonoBehaviour
         _unitSpritesSetter = new UnitSpritesSetter();
         ServiceLocator.Register(_unitSpritesSetter);
     }
-    private void RegisterUnitPrefabsConfig()
+
+    private void RegisterUnitsUpdater()
     {
-        _unitsPrefabConfig = new UnitPrefabsConfig();
-        ServiceLocator.Register(_unitsPrefabConfig);
+        _unitsUpater = new UnitsUpdater(_spawnedUnits);
+        ServiceLocator.Register(_unitsUpater);
     }
     private void RegisterUnitFactory()
     {
-        _unitsFactory = new UnitsFactory(_spawnedUnits, _containerForUnits, _unitStats);
+        _unitsFactory = new UnitsFactory(_containerForUnits, _unitStats);
         ServiceLocator.Register(_unitsFactory);
     }
     private void RegisterObjectPool()
@@ -75,4 +78,6 @@ public class GameplayServiceLocator : MonoBehaviour
         _gameplayPresenter = new GameplayPresenter();
         ServiceLocator.Register(_gameplayPresenter);
     }
+    private void RegisterButtonView() => ServiceLocator.Register(_buttonView);
+    #endregion
 }

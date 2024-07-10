@@ -1,6 +1,6 @@
 ﻿using Assets.Scripts.Architecture.StateMachine;
 
-public abstract class BaseGameState : IState, ILogicState
+public abstract class BaseGameState : IState
 {
     protected StateMachine<BaseGameState> _stateMachine;
     public BaseGameState(StateMachine<BaseGameState> stateMachine)
@@ -9,6 +9,4 @@ public abstract class BaseGameState : IState, ILogicState
     }
 
     public abstract void Enter();
-
-    public abstract void UpdateLogic();
 }

@@ -38,8 +38,6 @@ Special price: Every third unit on the field costs a special price.
 ## Plugins
 • DOTween
 
-• UniRx
-
 ## Features
 • Dynamic replacement of unit sprites during the game. The sprites are optimized and drawn independently. There are currently 2 types of units: medieval and soldiers.
 
@@ -105,7 +103,7 @@ Special price: Every third unit on the field costs a special price.
 
 ✔ EventBus with adjustable listener call order
 
-✔ Collecting statistic on field (all power, quantity of units, how much money left) with UniRx
+✔ Collecting statistic on field (all power, quantity of units, how much money left) with custom Reactive properties
 
 In process
 

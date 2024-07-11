@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Assets.Scripts.Architecture.Reactive;
 
 namespace Assets.Scripts.Architecture.ObjectPool
 {
@@ -19,11 +20,11 @@ namespace Assets.Scripts.Architecture.ObjectPool
 
         //private List<T> _freeObjects = new List<T>();
         private Queue<T> _freeObjects = new Queue<T>();
-        private List<T> _activeObjects;
+        private ReactiveList<T> ActiveObjects;
 
-        public ObjectPool(List<T> activeObjects, Func<T> Factory, Action<T, int> GetEffect, Action<T> ReturnEffect, int precount, bool autoExpand = true, int poolLimit = 0)
+        public ObjectPool(ReactiveList<T> activeObjects, Func<T> Factory, Action<T, int> GetEffect, Action<T> ReturnEffect, int precount, bool autoExpand = true, int poolLimit = 0)
         {
-            _activeObjects = activeObjects;
+            ActiveObjects = activeObjects;
             AutoExpand = autoExpand;
             _factory = Factory;
             _getEffect = GetEffect;
@@ -46,7 +47,7 @@ namespace Assets.Scripts.Architecture.ObjectPool
             {
                 T obj = _freeObjects.Dequeue();
                 _getEffect(obj, ID);
-                _activeObjects.Add(obj);
+                ActiveObjects.Add(obj);
                 return obj;
             } else if (AutoExpand)
             {
@@ -62,24 +63,21 @@ namespace Assets.Scripts.Architecture.ObjectPool
         public void ReturnObject(T obj)
         {
             _returnEffect(obj);
-            _activeObjects.Remove(obj);
+            ActiveObjects.Remove(obj);
             _freeObjects.Enqueue(obj);
         }
         public void ReturnAllActiveObjects()
         {
-            for (int i = _activeObjects.Count - 1; i >= 0; i--)
+            for (int i = ActiveObjects.Count - 1; i >= 0; i--)
             {
-                T obj = _activeObjects[i];
+                T obj = ActiveObjects.GetElement(i);
                 _returnEffect(obj);
                 _freeObjects.Enqueue(obj);
             }
-            _activeObjects.Clear();
+            ActiveObjects.Clear();
         }
         #endregion
-        public List<T> GetAllActiveObjects()
-        {
-            return _activeObjects;
-        }
+
 
         #region Count methods
         public int CountFreeObjects()
@@ -88,7 +86,7 @@ namespace Assets.Scripts.Architecture.ObjectPool
         }
         public int CountActiveObjects()
         {
-            return _activeObjects.Count;
+            return ActiveObjects.Count;
         }
         public int CountAllObjects()
         {
@@ -116,7 +114,7 @@ namespace Assets.Scripts.Architecture.ObjectPool
         {
             T createdObject = _factory();
             _getEffect(createdObject, ID);
-            _activeObjects.Add(createdObject);
+            ActiveObjects.Add(createdObject);
             return createdObject;
 
         }

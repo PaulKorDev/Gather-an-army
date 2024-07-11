@@ -40,28 +40,7 @@ Special price: Every third unit on the field costs a special price.
 ## Plugins
 • DOTween
 
-## Features
-• Dynamic replacement of unit sprites during the game. The sprites are optimized and drawn independently. There are currently 2 types of units: medieval and soldiers.
-
-• Dynamic theme change during the game. Theme settings are in ScriptableObjects. There are currently 2 themes: light and dark.
-
-• Dynamic localization change during the game. Localization is pulled from an excel file. There are currently 3 languages: English, Armenian and Russian.
-
-• There is a tutorial with pointers on where to click.
-
-• There are saves in json.
-
-• A menu with a list of levels and their update when new levels are added.
-
-• Tasks in scriptable for the convenience of the game designer.
-
-• Statistics calculation after passing the level: time, number of moves, button clicks to create, button clicks to clear.
-
-• Particles after passing the level.
-
-• Appearance and deletion of units with DOTWEEN animation.
-
-• GUI animation using DOTWEEN. 
+• Zenject
 
 # Road map
 Now, in process

@@ -23,7 +23,7 @@ Special price: Every third unit on the field costs a special price.
 ## Used Patterns:
 • Entry point
 
-• State Machine
+• ~~State Machine~~ DI (Zenject)
 
 • Service Locator
 
@@ -83,8 +83,10 @@ Now, in process
 
 ✔ Custom EventBus with adjustable listener call order
 
+⌛ Replace ServiceLocator to Zenject (DI is more relevant for serious games, so it will be a plus for the portfolio)
+
 ## Gameplay
-✔Create C# Unit class and his childrens
+✔ Create C# Unit class and his childrens
 
 ✔ Create C# Unit Factory
 
@@ -96,7 +98,7 @@ Now, in process
 
 ✔ Spawn units with inited stats (stats getted from IUnitStat)
 
-✔ Dinamically switching between unit types during the game
+✔ Dynamic unit types switching during the game
 
 ✔ Ability to clear the field from units
 
@@ -106,11 +108,42 @@ Now, in process
 
 ✔ Collecting statistic on field (all power, quantity of units, how much money left) with custom Reactive properties
 
-## View
+⌛ Add tasks for the levels. Tasks are saved and configured in script objects for the convenience of game designers.
+
+## Visual
 ✔ Create and adjsut UI on gameplay scene: prefabs, layout groups, buttons, texts etc.
 
 ✔ Add new type of units (new sprites)
 
 ✔ Initialization button view (sprites and stats)
+
+⌛ Optimization with atlases
+
+⌛ Dynamic themes switching (themes settings stored in ScriptableObjects and passed to View classes) 
+
+⌛ Dynamic localization switching from an Excel file
+
+⌛ Highlight completed tasks
+
+⌛ Pop-up settings window where you can switch the theme, language, etc.
+
+⌛ Guide with interactive explanation (create state machine and UI)
+
+⌛ Create and adjust MenuScene
+
+⌛ Level grid (load levels from saves)
+
+⌛ Add infinity particles (like stars) to menu and "Confetti" after level finish
+
+⌛ DOTween animation for appearance and deleting of units 
+
+⌛ DOTween animation for certain GUI elements
+
+## Other
+⌛ Saves to JSON
+
+⌛ Collect statistic about level (how much time is spent, how many moves are made, etc.)
+
+
 
 

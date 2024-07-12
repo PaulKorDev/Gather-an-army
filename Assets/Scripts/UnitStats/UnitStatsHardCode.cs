@@ -1,4 +1,6 @@
-﻿public class UnitStatsHardCode : IUnitStats
+﻿using UnityEngine;
+
+public class UnitStatsHardCode : IUnitStats
 {
     public int GetBaseCostOfUnit(int unitID)
     {

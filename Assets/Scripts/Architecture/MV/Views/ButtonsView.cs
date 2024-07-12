@@ -2,6 +2,7 @@ using Assets.Scripts.Architecture.EventBus;
 using Assets.Scripts.Architecture.ServiceLocator;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 public class ButtonsView : MonoBehaviour, IService
 {
@@ -11,16 +12,21 @@ public class ButtonsView : MonoBehaviour, IService
     private Button[] _unitButtons;
     private GameplayPresenter _presenter;
 
-    public void Init() {
+    private UnitSpritesSetter _unitSpritesSetter;
 
-        _presenter = ServiceLocator.Get<GameplayPresenter>();
+    [Inject]
+    public void Construct(GameplayPresenter presenter, EventBus eventBus, IUnitStats unitStats, UnitSpritesSetter unitSpritesSetter) {
+
+        _presenter = presenter;
+        _unitSpritesSetter = unitSpritesSetter;
 
         DisplayUnitButtonSprites();
-        DisplayUnitButtonStats();
-        AddListeners();
+        DisplayUnitButtonStats(unitStats);
+        AddListeners(eventBus);
+        Debug.Log("ButtonView");
     }
 
-    private void AddListeners()
+    private void AddListeners(EventBus eventBus)
     {
         #region Buttons
         _buttClearUnitsField.onClick.AddListener(OnClearButtonClicked);
@@ -28,7 +34,7 @@ public class ButtonsView : MonoBehaviour, IService
         _buttsSpawnUnit[1].onClick.AddListener(() => OnSpawnButtonClicked(2));
         _buttsSpawnUnit[2].onClick.AddListener(() => OnSpawnButtonClicked(3));
         #endregion
-        ServiceLocator.Get<EventBus>().UnitsTypeChanged.Subscribe(DisplayUnitButtonSprites);
+        eventBus.UnitsTypeChanged.Subscribe(DisplayUnitButtonSprites);
     }
     private void OnSpawnButtonClicked(int id)
     {
@@ -40,17 +46,13 @@ public class ButtonsView : MonoBehaviour, IService
     }
     public void DisplayUnitButtonSprites()
     {
-        UnitSpritesSetter spritesSetter = ServiceLocator.Get<UnitSpritesSetter>();
-
         for (int i = 0; i < _buttsSpawnUnit.Length; i++) {
-            _buttsSpawnUnit[i].transform.GetChild(0).GetComponent<Image>().sprite = spritesSetter.GetSpriteOfUnit(i+1);
+            _buttsSpawnUnit[i].transform.GetChild(0).GetComponent<Image>().sprite = _unitSpritesSetter.GetSpriteOfUnit(i+1);
         }
     }
 
-    private void DisplayUnitButtonStats()
+    private void DisplayUnitButtonStats(IUnitStats unitStats)
     {
-        IUnitStats unitStats = ServiceLocator.Get<IUnitStats>();
-
         for (int i = 0; i < _buttsSpawnUnit.Length; i++) {
             Text[] texts = _buttsSpawnUnit[i].GetComponentsInChildren<Text>();
             //Set stats to text on buttons

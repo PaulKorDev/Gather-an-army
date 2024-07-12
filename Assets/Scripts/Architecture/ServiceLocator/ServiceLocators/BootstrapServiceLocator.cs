@@ -6,9 +6,9 @@ public class BootstrapServiceLocator
 
     public void RegisterAllServices()
     {
-        RegisterEventBus();
+        //RegisterEventBus();
     }
 
-    private void RegisterEventBus() => ServiceLocator.Register(new EventBus());
+    //private void RegisterEventBus() => ServiceLocator.Register(new EventBus());
 }
 

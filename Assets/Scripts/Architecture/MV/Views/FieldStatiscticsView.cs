@@ -1,7 +1,7 @@
 using Assets.Scripts.Architecture.EventBus;
-using Assets.Scripts.Architecture.ServiceLocator;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 public class FieldStatiscticsView : MonoBehaviour
 {
@@ -9,9 +9,11 @@ public class FieldStatiscticsView : MonoBehaviour
     [SerializeField] private Text _allPower;
     [SerializeField] private Text _unitsQuantity;
 
-    public void Init()
+    [Inject]
+    public void Construct(EventBus eventBus)
     {
-        ServiceLocator.Get<EventBus>().FieldStatisticChanged.Subscribe(DisplayPowerAndQuantity);
+        eventBus.FieldStatisticChanged.Subscribe(DisplayPowerAndQuantity);
+        Debug.Log("FieldStatiscticsView");
     }
 
     private void DisplayPowerAndQuantity(int power, int quantity)

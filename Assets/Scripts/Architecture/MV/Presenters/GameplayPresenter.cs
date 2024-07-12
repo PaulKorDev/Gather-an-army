@@ -1,25 +1,30 @@
-﻿using Assets.Scripts.Architecture.EventBus;
-using Assets.Scripts.Architecture.ServiceLocator;
+﻿using Assets.Scripts.Architecture.ServiceLocator;
 using Units;
+using UnityEngine;
+using Zenject;
 
-public class GameplayPresenter : IService
+public class GameplayPresenter 
 {
+    [Inject] 
+    private UnitObjectPool Pool { get; set; }
+
+    public GameplayPresenter()
+    {
+        Debug.Log("GameplayPresenter");
+    }
     public void CreateUnit(int ID)
     {
-        UnitObjectPool pool = ServiceLocator.Get<UnitObjectPool>();
-        pool.GetObject(ID);
+        Pool.GetObject(ID);
     }
 
     public void ClearUnitField()
     {
-        UnitObjectPool pool = ServiceLocator.Get<UnitObjectPool>();
-        pool.ReturnAllActiveObjects();
+        Pool.ReturnAllActiveObjects();
     }
 
     public void DeleteUnitFromField(Unit unit)
     {
-        UnitObjectPool pool = ServiceLocator.Get<UnitObjectPool>();
-        pool.ReturnObject(unit);
+        Pool.ReturnObject(unit);
     }
 
     

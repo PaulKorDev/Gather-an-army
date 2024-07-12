@@ -1,13 +1,16 @@
-﻿using Assets.Scripts.Architecture.ServiceLocator;
-using UnityEngine;
+﻿using UnityEngine;
+using Zenject;
 
 public class SpriteSwitcherTest : MonoBehaviour
 {
     [SerializeField] private UnitsTypes _unitType;
 
+    private UnitSpritesSetter _unitSpritesSetter;
+
+
     private void OnValidate()
     {
-        ServiceLocator.Get<UnitSpritesSetter>().InitSprites(_unitType);
+        _unitSpritesSetter?.InitSprites(_unitType);
     }
 
 }

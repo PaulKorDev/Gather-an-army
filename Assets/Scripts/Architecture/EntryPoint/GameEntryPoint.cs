@@ -15,10 +15,9 @@ namespace Assets.Scripts.Architecture.EntryPoint
         {
             Application.targetFrameRate = 60;
 
-#if UNITY_IOS || UNITY_ANDROID || UNITY_WP_8_1
-            //For mobile game
-            Screen.sleepTimeout = SleepTimeout.NeverSleep;
-#endif
+            if (SystemInfo.deviceType == DeviceType.Handheld)
+                Screen.sleepTimeout = SleepTimeout.NeverSleep;
+
             _instance = new GameEntryPoint();
             _instance.RunGame();
         }
@@ -51,7 +50,7 @@ namespace Assets.Scripts.Architecture.EntryPoint
         private IEnumerator LoadAndStartFirstScreen()
         {
 
-            yield return SceneLoader.LoadScene(Scenes.BOOTSTRAP);
+            yield return SceneLoader.LoadSceneWithoutTransit(Scenes.BOOTSTRAP);
             GameHandler GameHandler = GameObject.FindObjectOfType<GameHandler>();
             GameHandler.Init();
             //InitBootstrapScene();

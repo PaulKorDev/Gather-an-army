@@ -12,5 +12,10 @@ namespace Assets.Scripts.Architecture.EntryPoint
             yield return SceneManager.LoadSceneAsync(sceneName);
             yield return new WaitForEndOfFrame();
         }
+        public static IEnumerator LoadSceneWithoutTransit(string sceneName)
+        {
+            yield return SceneManager.LoadSceneAsync(sceneName);
+            yield return new WaitForEndOfFrame();
+        }
     }
 }

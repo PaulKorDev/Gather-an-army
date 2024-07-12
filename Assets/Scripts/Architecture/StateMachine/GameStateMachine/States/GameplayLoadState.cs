@@ -23,8 +23,6 @@ public class GameplayLoadState : BaseGameState
         yield return SceneLoader.LoadScene(Scenes.GAMEPLAY);
 
         RegisterServicesToServiceLocator();
-        new FieldStatistic();
-        InitGameplayView();
         //Temporary script
         GameObject.Find("UI").AddComponent<SpriteSwitcherTest>();
 
@@ -38,10 +36,6 @@ public class GameplayLoadState : BaseGameState
         GameplayServiceLocator gamplayServiceLocator = GameObject.FindAnyObjectByType<GameplayServiceLocator>();
         gamplayServiceLocator.RegisterAllServices();
     }
-    private void InitGameplayView()
-    {
-        ServiceLocator.Get<ButtonsView>().Init();
-        GameObject.FindFirstObjectByType<FieldStatiscticsView>().Init();
-    }
+
     private void MoveToNextState() => _stateMachine.EnterToState<GameplayState>();
 }

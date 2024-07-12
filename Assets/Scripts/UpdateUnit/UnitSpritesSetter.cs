@@ -24,6 +24,7 @@ public class UnitSpritesSetter : IService
     public Sprite SpriteUnit2 { get; private set;}
     public Sprite SpriteUnit3 { get; private set;}
 
+    private EventBus _eventBus;
     private UnitType _unitSprites;
     //2 Create a new class and inherit it from UnitType
     private UnitsTypeFantasy _fantasySprites;
@@ -31,11 +32,16 @@ public class UnitSpritesSetter : IService
 
     private UnitsTypes _currentType = 0;
 
-    public UnitSpritesSetter()
+    public UnitSpritesSetter(EventBus eventBus)
     {
+        _eventBus = eventBus;
+
         //3 Create instance in constructor
         _fantasySprites = new UnitsTypeFantasy();
         _soldiersSprites = new UnitsTypeSoldier();
+
+        InitSprites(_currentType);
+        Debug.Log("UnitSpritesSetter");
     }
 
     public void InitSprites(UnitsTypes type)
@@ -51,7 +57,7 @@ public class UnitSpritesSetter : IService
         SpriteUnit2 = _unitSprites.SpriteUnit2;
         SpriteUnit3 = _unitSprites.SpriteUnit3;
 
-        ServiceLocator.Get<EventBus>().UnitsTypeChanged.Trigger();
+        _eventBus.UnitsTypeChanged.Trigger();
     }
 
     public Sprite GetSpriteOfUnit(int ID)

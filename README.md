@@ -62,7 +62,7 @@ Now, in process
 
 ✔ Custom EventBus with adjustable listener call order
 
-⌛ Replace ServiceLocator to Zenject (DI is more relevant for serious games, so it will be a plus for the portfolio)
+✔ Replace ServiceLocator to Zenject (DI is more relevant for serious games, so it will be a plus for the portfolio)
 
 ## Gameplay
 ✔ Create C# Unit class and his childrens

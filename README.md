@@ -23,9 +23,9 @@ Special price: Every third unit on the field costs a special price.
 ## Used Patterns:
 • Entry point
 
-• ~~State Machine~~ DI (Zenject)
+• State Machine 
 
-• Service Locator
+• ~~Service Locator~~ DI (Zenject)
 
 • Object Pool
 
